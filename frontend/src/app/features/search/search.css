@@ -1,0 +1,13 @@
+:host {
+  display: block;
+}
+
+/* Remove default search input clear button (we have our own) */
+input[type='search']::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type='search']::-ms-clear {
+  display: none;
+}

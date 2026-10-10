@@ -1,0 +1,204 @@
+<section
+  class="relative overflow-hidden"
+  style="background-color: var(--bg-primary)"
+>
+  <!-- Background effects -->
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+    <!-- Gradient blob 1 -->
+    <div
+      class="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full opacity-[0.15] blur-[100px] animate-float"
+      style="background: radial-gradient(circle, var(--accent) 0%, transparent 70%)"
+    ></div>
+
+    <!-- Gradient blob 2 -->
+    <div
+      class="absolute top-20 -right-32 w-[400px] h-[400px] rounded-full opacity-[0.1] blur-[80px] animate-float"
+      style="background: radial-gradient(circle, #7C3AED 0%, transparent 70%); animation-delay: -2s"
+    ></div>
+
+    <!-- Grid pattern -->
+    <div
+      class="absolute inset-0 opacity-[0.03]"
+      style="background-image: linear-gradient(var(--text-primary) 1px, transparent 1px), linear-gradient(90deg, var(--text-primary) 1px, transparent 1px); background-size: 60px 60px"
+    ></div>
+  </div>
+
+  <!-- Content -->
+  <div class="container-app relative py-20 md:py-32 lg:py-40">
+    <div class="grid lg:grid-cols-12 gap-12 items-center">
+      <!-- Text column -->
+      <div
+        class="lg:col-span-6 space-y-6 transition-all duration-700"
+        [class.opacity-0]="!isMounted()"
+        [class.translate-y-8]="!isMounted()"
+      >
+        <!-- Badge -->
+        <div
+          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[var(--border)] bg-[var(--bg-elevated)] text-xs font-medium text-[var(--text-secondary)]"
+        >
+          <span class="w-1.5 h-1.5 rounded-full bg-[var(--success)] animate-pulse-soft"></span>
+          {{ language.t('home.hero.badge') }}
+        </div>
+
+        <!-- Heading -->
+        <h1 class="display text-balance">
+          {{ language.t('home.hero.title') }}
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="text-lg md:text-xl text-[var(--text-secondary)] max-w-xl leading-relaxed">
+          {{ language.t('home.hero.subtitle') }}
+        </p>
+
+        <!-- CTAs -->
+        <div class="flex flex-wrap gap-3 pt-2">
+          <a routerLink="/shop" class="inline-block">
+            <app-button variant="primary" size="lg">
+              {{ language.t('home.hero.cta') }}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="rtl:rotate-180"
+              >
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </app-button>
+          </a>
+
+          <a routerLink="/shop" class="inline-block">
+            <app-button variant="secondary" size="lg">
+              {{ language.t('home.hero.ctaSecondary') }}
+            </app-button>
+          </a>
+        </div>
+
+        <!-- Stats -->
+        <div class="flex items-center gap-8 pt-4">
+          <div>
+            <p class="text-2xl font-bold text-[var(--text-primary)]">500+</p>
+           <p class="text-xs text-[var(--text-muted)] uppercase tracking-wide">
+  {{ language.t('home.hero.statProducts') }}
+</p>
+          </div>
+          <div class="w-px h-10 bg-[var(--border)]"></div>
+          <div>
+            <p class="text-2xl font-bold text-[var(--text-primary)]">10K+</p>
+            <p class="text-xs text-[var(--text-muted)] uppercase tracking-wide">
+  {{ language.t('home.hero.statCustomers') }}
+</p>
+          </div>
+          <div class="w-px h-10 bg-[var(--border)]"></div>
+          <div>
+            <p class="text-2xl font-bold text-[var(--text-primary)]">24/7</p>
+            <p class="text-xs text-[var(--text-muted)] uppercase tracking-wide">
+  {{ language.t('home.hero.statSupport') }}
+</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual column -->
+      <div
+        class="lg:col-span-6 relative transition-all duration-1000 delay-200"
+        [class.opacity-0]="!isMounted()"
+        [class.translate-y-8]="!isMounted()"
+      >
+        <div class="relative">
+          <!-- Main visual card -->
+          <div
+            class="relative aspect-[4/3] rounded-3xl overflow-hidden border border-[var(--border)] shadow-2xl"
+            style="background: linear-gradient(135deg, var(--bg-elevated) 0%, var(--surface) 100%)"
+          >
+            <!-- Laptop SVG illustration -->
+            <div class="absolute inset-0 flex items-center justify-center p-12">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 200 140"
+                fill="none"
+                class="w-full h-full max-w-md"
+              >
+                <!-- Screen -->
+                <rect
+                  x="20"
+                  y="10"
+                  width="160"
+                  height="100"
+                  rx="6"
+                  fill="var(--bg-secondary)"
+                  stroke="var(--border)"
+                  stroke-width="2"
+                />
+                <!-- Screen content gradient -->
+                <defs>
+                  <linearGradient id="screenGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.3" />
+                    <stop offset="100%" stop-color="var(--accent)" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <rect
+                  x="24"
+                  y="14"
+                  width="152"
+                  height="92"
+                  rx="4"
+                  fill="url(#screenGlow)"
+                />
+                <!-- Base -->
+                <path
+                  d="M10 110 L30 130 L170 130 L190 110 Z"
+                  fill="var(--bg-secondary)"
+                  stroke="var(--border)"
+                  stroke-width="2"
+                />
+                <!-- Trackpad line -->
+                <path
+                  d="M90 124 L110 124"
+                  stroke="var(--text-muted)"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+
+            <!-- Floating spec chips -->
+            <div
+              class="absolute top-6 left-6 px-3 py-2 rounded-xl bg-[var(--bg-elevated)] border border-[var(--border)] shadow-lg animate-float"
+              style="animation-delay: 0s"
+            >
+              <p class="mono text-xs text-[var(--accent)] font-semibold">RTX 4070</p>
+            </div>
+
+            <div
+              class="absolute top-1/3 right-6 px-3 py-2 rounded-xl bg-[var(--bg-elevated)] border border-[var(--border)] shadow-lg animate-float"
+              style="animation-delay: -1.5s"
+            >
+              <p class="mono text-xs text-[var(--accent)] font-semibold">i9-13980HX</p>
+            </div>
+
+            <div
+              class="absolute bottom-6 left-1/2 -translate-x-1/2 px-3 py-2 rounded-xl bg-[var(--bg-elevated)] border border-[var(--border)] shadow-lg animate-float"
+              style="animation-delay: -3s"
+            >
+              <p class="mono text-xs text-[var(--accent)] font-semibold">32GB DDR5</p>
+            </div>
+          </div>
+
+          <!-- Decorative glow -->
+          <div
+            class="absolute -inset-8 -z-10 rounded-[40px] opacity-30 blur-3xl"
+            style="background: radial-gradient(circle at center, var(--accent) 0%, transparent 60%)"
+            aria-hidden="true"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

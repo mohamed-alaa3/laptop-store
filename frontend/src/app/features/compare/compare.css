@@ -1,0 +1,9 @@
+:host {
+  display: block;
+}
+
+/* Sticky first column background needs a solid color */
+td.sticky,
+th.sticky {
+  background-color: inherit;
+}

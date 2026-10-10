@@ -1,0 +1,219 @@
+<article
+  class="group relative flex flex-col h-full rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] overflow-hidden transition-all duration-300 hover:border-[var(--accent)] hover:shadow-xl hover:-translate-y-1"
+>
+  <!-- Image container -->
+  <a
+    [routerLink]="['/product', product().slug]"
+    class="image-zoom-container relative block aspect-[4/3] overflow-hidden bg-[var(--surface)]"
+  >
+    @if (mainImage()) {
+      <img
+        [src]="mainImage()"
+        [alt]="productName()"
+        class="image-zoom w-full h-full object-cover"
+        loading="lazy"
+      />
+    } @else {
+      <!-- Placeholder: gradient + icon -->
+      <div
+        class="w-full h-full flex items-center justify-center"
+        [style.background]="'linear-gradient(135deg, var(--accent-soft) 0%, var(--surface) 100%)'"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="56"
+          height="56"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="var(--accent)"
+          stroke-width="1.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="opacity-60"
+        >
+          <path d="M18 5a2 2 0 0 1 2 2v8.526a2 2 0 0 0 .212.897l1.068 2.127a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45l1.068-2.127A2 2 0 0 0 4 15.526V7a2 2 0 0 1 2-2z" />
+          <path d="M20.054 15.987H3.946" />
+        </svg>
+      </div>
+    }
+
+    <!-- Badges overlay -->
+    <div class="absolute top-3 start-3 flex flex-col gap-1.5 items-start">
+      @if (product().newArrival) {
+        <app-badge variant="new">
+          {{ language.t('product.badges.new') }}
+        </app-badge>
+      }
+      @if (hasDiscount()) {
+        <app-badge variant="sale">
+          -{{ discountPercent() }}%
+        </app-badge>
+      }
+      @if (hasFreeGift()) {
+        <app-badge variant="free-gift">
+          🎁 {{ language.t('product.badges.freeGift') }}
+        </app-badge>
+      }
+      @if (product().featured && !product().newArrival) {
+        <app-badge variant="featured">
+          {{ language.t('product.badges.featured') }}
+        </app-badge>
+      }
+    </div>
+
+    <!-- Condition badge (top-end) -->
+    <div class="absolute top-3 end-3">
+      <app-badge
+        [variant]="product().condition === 'new' ? 'condition-new' : 'condition-imported'"
+      >
+        {{ language.t('product.condition.' + product().condition) }}
+      </app-badge>
+    </div>
+
+    <!-- Out of stock overlay -->
+    @if (isOutOfStock()) {
+      <div
+        class="absolute inset-0 bg-[var(--bg-primary)]/70 backdrop-blur-sm flex items-center justify-center"
+      >
+        <span
+          class="px-4 py-2 rounded-full bg-[var(--danger)] text-white text-xs font-bold uppercase tracking-wider"
+        >
+          {{ language.t('product.outOfStock') }}
+        </span>
+      </div>
+    }
+  </a>
+
+  <!-- Quick actions (wishlist + compare) -->
+  <div
+    class="absolute top-3 end-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col gap-2"
+    style="top: 3rem"
+  >
+    <button
+      type="button"
+      (click)="onWishlistClick($event)"
+      [attr.aria-label]="wishlistActive() ? language.t('actions.removeFromWishlist') : language.t('actions.addToWishlist')"
+      [attr.aria-pressed]="wishlistActive()"
+      class="w-9 h-9 rounded-full bg-[var(--bg-elevated)]/95 backdrop-blur-sm border border-[var(--border)] flex items-center justify-center transition-all duration-200 hover:scale-110 focus-ring shadow-md"
+      [style.color]="wishlistActive() ? 'var(--danger)' : 'var(--text-secondary)'"
+    >
+      <svg
+        [class.heart-beat]="heartAnimating()"
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        [attr.fill]="wishlistActive() ? 'currentColor' : 'none'"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
+        />
+      </svg>
+    </button>
+
+    <button
+      type="button"
+      (click)="onCompareClick($event)"
+      [attr.aria-label]="compareActive() ? language.t('actions.removeFromCompare') : language.t('actions.addToCompare')"
+      [attr.aria-pressed]="compareActive()"
+      class="w-9 h-9 rounded-full bg-[var(--bg-elevated)]/95 backdrop-blur-sm border border-[var(--border)] flex items-center justify-center transition-all duration-200 hover:scale-110 focus-ring shadow-md"
+      [style.color]="compareActive() ? 'var(--accent)' : 'var(--text-secondary)'"
+    >
+      <svg
+        [class.wiggle]="compareAnimating()"
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="m16 16 4 4 4-4" />
+        <path d="M20 20V4" />
+        <path d="m8 8-4-4-4 4" />
+        <path d="M4 4v16" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Content -->
+  <div class="p-4 flex flex-col flex-1 gap-2">
+    <!-- Brand -->
+    <p
+      class="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider"
+    >
+      {{ product().brand }}
+    </p>
+
+    <!-- Name -->
+    <a
+      [routerLink]="['/product', product().slug]"
+      class="text-sm font-semibold text-[var(--text-primary)] line-clamp-2 leading-snug hover:text-[var(--accent)] transition-colors focus-ring rounded"
+    >
+      {{ productName() }}
+    </a>
+
+    <!-- Short specs -->
+    @if (shortSpecs().length > 0) {
+      <div class="flex flex-wrap gap-1.5 mt-1">
+        @for (spec of shortSpecs(); track $index) {
+          <span
+            class="mono text-[10px] px-2 py-0.5 rounded-md bg-[var(--surface)] text-[var(--text-secondary)] border border-[var(--border)]"
+          >
+            {{ getSpecValue(spec) }}
+          </span>
+        }
+      </div>
+    }
+
+    <!-- Spacer -->
+    <div class="flex-1"></div>
+
+    <!-- Low stock -->
+    @if (isLowStock()) {
+      <p
+        class="text-[10px] font-medium text-[var(--badge-featured-fg)] uppercase tracking-wider"
+      >
+        ⚡ {{ language.t('product.lowStock') }}
+      </p>
+    }
+
+    <!-- Price + CTA -->
+    <div class="flex items-end justify-between gap-2 pt-2">
+      <app-price-display
+        [price]="product().price"
+        [oldPrice]="product().oldPrice"
+        size="sm"
+      />
+
+      <a
+        [routerLink]="['/product', product().slug]"
+        class="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-[var(--accent)] text-white transition-all duration-200 hover:bg-[var(--accent-hover)] hover:scale-105 focus-ring"
+        [attr.aria-label]="language.t('actions.viewDetails')"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="rtl:rotate-180"
+        >
+          <path d="M5 12h14" />
+          <path d="m12 5 7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</article>

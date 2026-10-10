@@ -1,0 +1,231 @@
+{
+  "common": {
+    "loading": "جاري التحميل...",
+    "error": "حدث خطأ ما",
+    "retry": "حاول مرة أخرى",
+    "close": "إغلاق",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "search": "بحث",
+    "filter": "تصفية",
+    "all": "الكل",
+    "yes": "نعم",
+    "no": "لا",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق"
+  },
+"nav": {
+  "home": "الرئيسية",
+  "shop": "المتجر",
+  "categories": "الفئات",
+  "wishlist": "المفضلة",
+  "compare": "مقارنة",
+  "search": "بحث",
+  "searchPlaceholder": "ابحث عن منتجات...",
+  "language": "اللغة",
+  "theme": "المظهر",
+  "admin": "الإدارة"
+},
+  "theme": {
+    "light": "فاتح",
+    "dark": "داكن",
+    "toggle": "تبديل المظهر"
+  },
+  "language": {
+    "en": "English",
+    "ar": "العربية",
+    "toggle": "تبديل اللغة"
+  },
+  "product": {
+    "condition": {
+      "new": "جديد",
+      "imported": "استيراد"
+    },
+    "badges": {
+      "new": "جديد",
+      "sale": "خصم",
+      "freeGift": "هدية مجانية",
+      "featured": "مميز"
+    },
+    "specifications": "المواصفات",
+    "specification": "المواصفة",
+    "details": "التفاصيل",
+    "description": "الوصف",
+    "price": "السعر",
+    "oldPrice": "السعر القديم",
+    "stock": "المخزون",
+    "inStock": "متوفر",
+    "outOfStock": "غير متوفر",
+    "lowStock": "مخزون منخفض",
+    "brand": "الماركة",
+    "category": "الفئة",
+    "discount": "الخصم",
+    "save": "وفّر",
+    "off": "خصم"
+  },
+  "actions": {
+    "addToWishlist": "أضف للمفضلة",
+    "removeFromWishlist": "احذف من المفضلة",
+    "addToCompare": "أضف للمقارنة",
+    "removeFromCompare": "احذف من المقارنة",
+    "viewDetails": "عرض التفاصيل",
+    "askOnWhatsApp": "اعرف تفاصيل أكتر",
+    "shopNow": "تسوق الآن",
+    "exploreProducts": "تصفح المنتجات",
+    "shopGaming": "تسوق الجيمنج",
+    "browseAll": "تصفح الكل"
+  },
+  "whatsapp": {
+    "productMessage": "السلام عليكم، أريد معرفة تفاصيل أكثر عن",
+    "generalMessage": "السلام عليكم، عندي استفسار"
+  },
+"home": {
+  "hero": {
+    "title": "ابدأ مستواك الجديد.",
+    "subtitle": "لابتوبات قوية، كمبيوترات، وكل ما تحتاجه لمستقبلك الرقمي.",
+    "cta": "تصفح المنتجات",
+    "ctaSecondary": "تسوق الجيمنج",
+    "badge": "وصل حديثاً",
+    "statProducts": "منتج",
+    "statCustomers": "عميل",
+    "statSupport": "دعم"
+  },
+  "featuredCategories": {
+    "title": "تسوق حسب الفئة",
+    "subtitle": "اعثر على ما تحتاجه بالظبط"
+  },
+  "trendingProducts": {
+    "title": "الأكثر رواجاً",
+    "subtitle": "اختياراتنا الأكثر شعبية",
+    "empty": "لا توجد منتجات رائجة حالياً"
+  },
+  "findYourDevice": {
+    "title": "اعثر على جهازك المثالي",
+    "subtitle": "اختر استخدامك وسنعرض لك أفضل الخيارات",
+    "gaming": "جيمنج",
+    "gamingDesc": "أجهزة عالية الأداء",
+    "work": "عمل وأعمال",
+    "workDesc": "موثوق وسريع",
+    "design": "تصميم وإبداع",
+    "designDesc": "شاشات دقيقة الألوان",
+    "student": "طلاب",
+    "studentDesc": "أفضل قيمة مقابل السعر"
+  },
+  "promo": {
+    "badge": "لفترة محدودة",
+    "title": "ارفع مستوى",
+    "titleHighlight": "إعداد الجيمنج",
+    "subtitle": "خصم حتى 25% على لابتوبات وشاشات وملحقات الجيمنج المختارة. مبنية للأداء، وبسعر الفائزين.",
+    "highlight1": "خصم حتى 25%",
+    "highlight2": "ماوس جيمنج مجاناً",
+    "highlight3": "ضمان ممتد",
+    "cta": "تسوق عروض الجيمنج"
+  },
+  "whyChooseUs": {
+    "title": "لماذا تختارنا",
+    "subtitle": "مبني على الثقة والجودة",
+    "fastShipping": "شحن سريع",
+    "fastShippingDesc": "توصيل سريع لباب بيتك",
+    "warranty": "ضمان",
+    "warrantyDesc": "ضمان كامل على كل المنتجات",
+    "support": "دعم 24/7",
+    "supportDesc": "إحنا هنا وقت ما تحتاجنا",
+    "securePayment": "دفع آمن",
+    "securePaymentDesc": "بياناتك محمية"
+  },
+  "whatsappCta": {
+    "title": "محتاج مساعدة في الاختيار؟",
+    "subtitle": "فريقنا هنا لمساعدتك في اختيار الجهاز المثالي. اسألنا أي حاجة على واتساب.",
+    "replies": "عادة نرد خلال دقائق"
+  },
+  "scrollytelling": {
+    "ariaLabel": "عرض تفاعلي للابتوب",
+    "stage1Title": "مصمم للأداء.",
+    "stage1Subtitle": "مزيج من القوة والدقة، صُنع لمن يطلبون الأفضل.",
+    "stage2Title": "ما وراء السطح.",
+    "stage2Subtitle": "كل طبقة تكشف عن تميز هندسي — من الشاشة إلى الهيكل.",
+    "stage3Title": "قلب القوة.",
+    "stage3Subtitle": "نظام تبريد متطور ومكونات متقدمة تعمل بتناغم تام.",
+    "stage4Title": "بُني بلا تنازلات.",
+    "stage4Subtitle": "من البطارية عالية السعة إلى الإطار المقوى — كل تفصيلة مهمة.",
+    "stage5Title": "كل مكوّن، مُتقَن.",
+    "stage5Subtitle": "صُنع بدقة من الداخل للخارج، ليقدم أداءً لا مثيل له."
+  }
+},
+  "shop": {
+    "title": "المتجر",
+    "filters": "الفلاتر",
+    "sortBy": "ترتيب حسب",
+    "sort": {
+      "newest": "الأحدث",
+      "oldest": "الأقدم",
+      "priceAsc": "السعر: من الأقل للأعلى",
+      "priceDesc": "السعر: من الأعلى للأقل",
+      "nameAsc": "الاسم: أ - ي",
+      "nameDesc": "الاسم: ي - أ"
+    },
+    "noResults": "لا توجد منتجات",
+    "noResultsHint": "جرّب تعديل الفلاتر",
+    "showMore": "عرض المزيد",
+    "showingResults": "عرض {count} من {total}"
+  },
+  "productDetails": {
+    "aboutProduct": "عن هذا المنتج",
+    "specs": "المواصفات",
+    "relatedProducts": "قد يعجبك أيضاً",
+    "addedToWishlist": "أضيف للمفضلة",
+    "removedFromWishlist": "حُذف من المفضلة",
+    "addedToCompare": "أضيف للمقارنة",
+    "removedFromCompare": "حُذف من المقارنة",
+    "compareFull": "قائمة المقارنة ممتلئة (الحد الأقصى 4)"
+  },
+"wishlist": {
+  "title": "قائمة المفضلة",
+  "empty": "قائمة المفضلة فارغة",
+  "emptyHint": "ابدأ بإضافة المنتجات التي تحبها",
+  "browseProducts": "تصفح المنتجات",
+  "clear": "مسح الكل",
+  "clearConfirm": "هل أنت متأكد أنك تريد مسح قائمة المفضلة؟"
+},
+"compare": {
+  "title": "مقارنة المنتجات",
+  "empty": "لا توجد منتجات للمقارنة",
+  "emptyHint": "أضف حتى 4 منتجات للمقارنة",
+  "max": "الحد الأقصى 4 منتجات",
+  "feature": "المواصفة",
+  "remove": "حذف"
+},
+  "footer": {
+    "about": "من نحن",
+    "aboutText": "وجهتك الموثوقة للكمبيوترات والتقنية المتميزة.",
+    "quickLinks": "روابط سريعة",
+    "contact": "تواصل معنا",
+    "followUs": "تابعنا",
+    "rights": "جميع الحقوق محفوظة"
+  },
+  "admin": {
+    "login": "دخول الإدارة",
+    "username": "اسم المستخدم",
+    "password": "كلمة المرور",
+    "signIn": "تسجيل الدخول",
+    "signOut": "تسجيل الخروج",
+    "dashboard": "لوحة التحكم",
+    "products": "المنتجات",
+    "categories": "الفئات",
+    "totalProducts": "إجمالي المنتجات",
+    "totalCategories": "إجمالي الفئات",
+    "lowStock": "منتجات بمخزون منخفض",
+    "featuredProducts": "منتجات مميزة",
+    "productsOnSale": "منتجات عليها خصم"
+  },
+  "errors": {
+    "notFound": "الصفحة غير موجودة",
+    "notFoundHint": "الصفحة اللي بتدور عليها مش موجودة",
+    "goHome": "الصفحة الرئيسية",
+    "networkError": "خطأ في الشبكة. تحقق من اتصالك.",
+    "serverError": "خطأ في السيرفر. حاول لاحقاً."
+  }
+}

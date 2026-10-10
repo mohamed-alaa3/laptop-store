@@ -1,0 +1,95 @@
+@if (totalPages() > 1) {
+  <nav
+    class="flex items-center justify-center gap-1.5 mt-10"
+    role="navigation"
+    aria-label="Pagination"
+  >
+    <!-- Prev button -->
+    <button
+      type="button"
+      (click)="prev()"
+      [disabled]="!hasPrev()"
+      [attr.aria-label]="'Previous page'"
+      class="inline-flex items-center justify-center w-10 h-10 rounded-full
+             bg-[var(--bg-elevated)] border border-[var(--border)]
+             text-[var(--text-secondary)]
+             hover:border-[var(--accent)] hover:text-[var(--accent)]
+             disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none
+             transition-colors focus-ring"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="rtl:rotate-180"
+      >
+        <path d="m15 18-6-6 6-6" />
+      </svg>
+    </button>
+
+    <!-- Page numbers -->
+    @for (page of pages(); track $index) {
+      @if (page === -1) {
+        <span
+          class="inline-flex items-center justify-center w-10 h-10 text-[var(--text-muted)]"
+          aria-hidden="true"
+        >
+          ···
+        </span>
+      } @else {
+        <button
+          type="button"
+          (click)="goTo(page)"
+          [attr.aria-current]="page === currentPage() ? 'page' : null"
+          class="inline-flex items-center justify-center min-w-[40px] h-10 px-3 rounded-full text-sm font-medium transition-colors focus-ring"
+          [class.bg-[var(--accent)]]="page === currentPage()"
+          [class.text-white]="page === currentPage()"
+          [class.shadow-sm]="page === currentPage()"
+          [class.bg-[var(--bg-elevated)]]="page !== currentPage()"
+          [class.border]="page !== currentPage()"
+          [class.border-[var(--border)]]="page !== currentPage()"
+          [class.text-[var(--text-secondary)]]="page !== currentPage()"
+          [class.hover:border-[var(--accent)]]="page !== currentPage()"
+          [class.hover:text-[var(--accent)]]="page !== currentPage()"
+        >
+          {{ page }}
+        </button>
+      }
+    }
+
+    <!-- Next button -->
+    <button
+      type="button"
+      (click)="next()"
+      [disabled]="!hasNext()"
+      [attr.aria-label]="'Next page'"
+      class="inline-flex items-center justify-center w-10 h-10 rounded-full
+             bg-[var(--bg-elevated)] border border-[var(--border)]
+             text-[var(--text-secondary)]
+             hover:border-[var(--accent)] hover:text-[var(--accent)]
+             disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none
+             transition-colors focus-ring"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="rtl:rotate-180"
+      >
+        <path d="m9 18 6-6-6-6" />
+      </svg>
+    </button>
+  </nav>
+}

@@ -1,0 +1,573 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex items-end justify-between gap-4 flex-wrap">
+    <div>
+      <h1 class="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">
+        {{ language.language() === 'ar' ? 'الفئات' : 'Categories' }}
+      </h1>
+      <p class="text-sm text-[var(--text-secondary)] mt-1">
+        {{ categories().length }}
+        {{ language.language() === 'ar' ? 'فئة' : 'categories' }}
+      </p>
+    </div>
+
+    <app-button variant="primary" size="md" (clicked)="openCreate()">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M12 5v14" />
+        <path d="M5 12h14" />
+      </svg>
+      {{ language.language() === 'ar' ? 'إضافة فئة' : 'Add Category' }}
+    </app-button>
+  </div>
+
+  <!-- Loading -->
+  @if (loading()) {
+    <div
+      class="rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] overflow-hidden"
+    >
+      <div class="p-4 space-y-3">
+        @for (i of [1, 2, 3, 4, 5]; track i) {
+          <app-skeleton width="100%" height="4rem" />
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Empty -->
+  @else if (isEmpty()) {
+    <div
+      class="rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] p-12 text-center"
+    >
+      <div
+        class="w-16 h-16 mx-auto rounded-full bg-[var(--surface)] flex items-center justify-center mb-4 text-[var(--text-muted)]"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect width="18" height="18" x="3" y="3" rx="2" />
+          <path d="M3 12h18" />
+          <path d="M12 3v18" />
+        </svg>
+      </div>
+      <h3 class="text-lg font-semibold text-[var(--text-primary)] mb-2">
+        {{ language.language() === 'ar' ? 'لا توجد فئات' : 'No categories yet' }}
+      </h3>
+      <p class="text-sm text-[var(--text-secondary)] mb-6">
+        {{
+          language.language() === 'ar'
+            ? 'ابدأ بإضافة فئتك الأولى'
+            : 'Start by adding your first category'
+        }}
+      </p>
+      <app-button variant="primary" size="md" (clicked)="openCreate()">
+        {{ language.language() === 'ar' ? 'إضافة فئة' : 'Add Category' }}
+      </app-button>
+    </div>
+  }
+
+  <!-- List -->
+  @else {
+    <div
+      class="rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] overflow-hidden"
+    >
+      <div class="divide-y divide-[var(--border)]">
+        @for (cat of categories(); track cat._id) {
+          <div class="p-4 flex items-center gap-4">
+            <!-- Icon -->
+            <div
+              class="shrink-0 w-12 h-12 rounded-xl bg-[var(--accent-soft)] flex items-center justify-center text-[var(--accent)]"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect width="18" height="18" x="3" y="3" rx="2" />
+                <path d="M3 12h18" />
+                <path d="M12 3v18" />
+              </svg>
+            </div>
+
+            <!-- Info -->
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-semibold text-[var(--text-primary)] truncate">
+                {{ getCategoryName(cat) }}
+              </p>
+              <p class="text-xs text-[var(--text-muted)] mt-0.5 mono">
+                {{ cat.slug }}
+                @if (cat.specificationTemplate.length > 0) {
+                  · {{ cat.specificationTemplate.length }}
+                  {{ language.language() === 'ar' ? 'مواصفة' : 'specs' }}
+                }
+              </p>
+            </div>
+
+            <!-- Order -->
+            <div class="text-end shrink-0 hidden sm:block">
+              <p class="text-xs text-[var(--text-muted)]">
+                {{ language.language() === 'ar' ? 'ترتيب' : 'Order' }}
+              </p>
+              <p class="text-sm font-bold text-[var(--text-primary)]">
+                {{ cat.order }}
+              </p>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-1 shrink-0">
+              <button
+                type="button"
+                (click)="openEdit(cat)"
+                class="w-9 h-9 rounded-lg flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--accent)] hover:bg-[var(--accent-soft)] transition-colors"
+                [title]="language.language() === 'ar' ? 'تعديل' : 'Edit'"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                  />
+                </svg>
+              </button>
+              <button
+                type="button"
+                (click)="requestDelete(cat._id)"
+                class="w-9 h-9 rounded-lg flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--badge-sale-fg)] hover:bg-[var(--badge-sale-bg)] transition-colors"
+                [title]="language.language() === 'ar' ? 'حذف' : 'Delete'"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M3 6h18" />
+                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     MODAL: Create/Edit Category
+     ═══════════════════════════════════════════════════ -->
+@if (isModalOpen()) {
+  <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div
+      class="absolute inset-0 bg-black/50 backdrop-blur-sm"
+      (click)="closeModal()"
+      aria-hidden="true"
+    ></div>
+
+    <div
+      class="relative w-full max-w-2xl max-h-[90vh] rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] shadow-2xl overflow-hidden flex flex-col animate-scale-in"
+    >
+      <!-- Modal header -->
+      <div
+        class="p-5 border-b border-[var(--border)] flex items-center justify-between shrink-0"
+      >
+        <h2 class="text-lg font-bold text-[var(--text-primary)]">
+          {{
+            isEditMode()
+              ? language.language() === 'ar'
+                ? 'تعديل فئة'
+                : 'Edit Category'
+              : language.language() === 'ar'
+                ? 'إضافة فئة'
+                : 'Add Category'
+          }}
+        </h2>
+        <button
+          type="button"
+          (click)="closeModal()"
+          class="w-9 h-9 rounded-lg flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface)] transition-colors"
+          aria-label="Close"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="p-5 overflow-y-auto flex-1 space-y-4">
+        <!-- Name (EN + AR) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label
+              for="cat-name-en"
+              class="block text-sm font-medium text-[var(--text-primary)] mb-1.5"
+            >
+              {{ language.language() === 'ar' ? 'الاسم (إنجليزي)' : 'Name (English)' }}
+              <span class="text-[var(--danger)]">*</span>
+            </label>
+            <input
+              id="cat-name-en"
+              type="text"
+              [ngModel]="form().nameEn"
+              (ngModelChange)="updateForm('nameEn', $event)"
+              placeholder="Laptops"
+              dir="ltr"
+              class="w-full h-10 px-3 rounded-xl border text-sm focus:border-[var(--accent)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/20 transition-all"
+              [style.background-color]="'var(--surface)'"
+              [style.color]="'var(--text-primary)'"
+              [style.border-color]="'var(--border)'"
+            />
+          </div>
+          <div>
+            <label
+              for="cat-name-ar"
+              class="block text-sm font-medium text-[var(--text-primary)] mb-1.5"
+            >
+              {{ language.language() === 'ar' ? 'الاسم (عربي)' : 'Name (Arabic)' }}
+              <span class="text-[var(--danger)]">*</span>
+            </label>
+            <input
+              id="cat-name-ar"
+              type="text"
+              [ngModel]="form().nameAr"
+              (ngModelChange)="updateForm('nameAr', $event)"
+              placeholder="لابتوبات"
+              dir="rtl"
+              class="w-full h-10 px-3 rounded-xl border text-sm focus:border-[var(--accent)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/20 transition-all"
+              [style.background-color]="'var(--surface)'"
+              [style.color]="'var(--text-primary)'"
+              [style.border-color]="'var(--border)'"
+            />
+          </div>
+        </div>
+
+        <!-- Description (EN + AR) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label
+              for="cat-desc-en"
+              class="block text-sm font-medium text-[var(--text-primary)] mb-1.5"
+            >
+              {{ language.language() === 'ar' ? 'الوصف (إنجليزي)' : 'Description (EN)' }}
+              <span class="text-xs text-[var(--text-muted)] font-normal">
+                ({{ language.language() === 'ar' ? 'اختياري' : 'optional' }})
+              </span>
+            </label>
+            <textarea
+              id="cat-desc-en"
+              rows="2"
+              [ngModel]="form().descriptionEn"
+              (ngModelChange)="updateForm('descriptionEn', $event)"
+              placeholder="High-performance laptops"
+              dir="ltr"
+              class="w-full px-3 py-2 rounded-xl border text-sm resize-none focus:border-[var(--accent)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/20 transition-all"
+              [style.background-color]="'var(--surface)'"
+              [style.color]="'var(--text-primary)'"
+              [style.border-color]="'var(--border)'"
+            ></textarea>
+          </div>
+          <div>
+            <label
+              for="cat-desc-ar"
+              class="block text-sm font-medium text-[var(--text-primary)] mb-1.5"
+            >
+              {{ language.language() === 'ar' ? 'الوصف (عربي)' : 'Description (AR)' }}
+              <span class="text-xs text-[var(--text-muted)] font-normal">
+                ({{ language.language() === 'ar' ? 'اختياري' : 'optional' }})
+              </span>
+            </label>
+            <textarea
+              id="cat-desc-ar"
+              rows="2"
+              [ngModel]="form().descriptionAr"
+              (ngModelChange)="updateForm('descriptionAr', $event)"
+              placeholder="لابتوبات عالية الأداء"
+              dir="rtl"
+              class="w-full px-3 py-2 rounded-xl border text-sm resize-none focus:border-[var(--accent)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/20 transition-all"
+              [style.background-color]="'var(--surface)'"
+              [style.color]="'var(--text-primary)'"
+              [style.border-color]="'var(--border)'"
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Icon + Order -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label
+              for="cat-icon"
+              class="block text-sm font-medium text-[var(--text-primary)] mb-1.5"
+            >
+              {{ language.language() === 'ar' ? 'الأيقونة' : 'Icon' }}
+              <span class="text-xs text-[var(--text-muted)] font-normal">
+                ({{ language.language() === 'ar' ? 'اختياري' : 'optional' }})
+              </span>
+            </label>
+            <input
+              id="cat-icon"
+              type="text"
+              [ngModel]="form().icon"
+              (ngModelChange)="updateForm('icon', $event)"
+              placeholder="laptop"
+              class="w-full h-10 px-3 rounded-xl border text-sm focus:border-[var(--accent)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/20 transition-all"
+              [style.background-color]="'var(--surface)'"
+              [style.color]="'var(--text-primary)'"
+              [style.border-color]="'var(--border)'"
+            />
+          </div>
+          <div>
+            <label
+              for="cat-order"
+              class="block text-sm font-medium text-[var(--text-primary)] mb-1.5"
+            >
+              {{ language.language() === 'ar' ? 'الترتيب' : 'Order' }}
+            </label>
+            <input
+              id="cat-order"
+              type="number"
+              [ngModel]="form().order"
+              (ngModelChange)="updateForm('order', +$event)"
+              placeholder="0"
+              class="w-full h-10 px-3 rounded-xl border text-sm focus:border-[var(--accent)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/20 transition-all"
+              [style.background-color]="'var(--surface)'"
+              [style.color]="'var(--text-primary)'"
+              [style.border-color]="'var(--border)'"
+            />
+          </div>
+        </div>
+
+        <!-- Specification Templates -->
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <label class="text-sm font-medium text-[var(--text-primary)]">
+              {{
+                language.language() === 'ar'
+                  ? 'قوالب المواصفات'
+                  : 'Specification Templates'
+              }}
+              <span class="text-xs text-[var(--text-muted)] font-normal">
+                ({{ language.language() === 'ar' ? 'اختياري' : 'optional' }})
+              </span>
+            </label>
+            <button
+              type="button"
+              (click)="addSpecTemplate()"
+              class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-xs font-medium bg-[var(--accent-soft)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 5v14" />
+                <path d="M5 12h14" />
+              </svg>
+              {{ language.language() === 'ar' ? 'إضافة' : 'Add' }}
+            </button>
+          </div>
+
+          @if (form().specificationTemplate.length === 0) {
+            <p class="text-xs text-[var(--text-muted)] text-center py-3">
+              {{
+                language.language() === 'ar'
+                  ? 'لا توجد قوالب. اضغط "إضافة".'
+                  : 'No templates. Click "Add".'
+              }}
+            </p>
+          } @else {
+            <div class="space-y-2">
+              @for (spec of form().specificationTemplate; track $index; let i = $index) {
+                <div class="grid grid-cols-12 gap-2 p-2 rounded-lg border border-[var(--border)] bg-[var(--surface)]">
+                  <input
+                    type="text"
+                    [ngModel]="spec.nameEn"
+                    (ngModelChange)="updateSpecTemplate(i, 'nameEn', $event)"
+                    placeholder="Processor"
+                    dir="ltr"
+                    class="col-span-5 h-9 px-3 rounded-lg border text-xs focus:border-[var(--accent)] focus:outline-none transition-all"
+                    [style.background-color]="'var(--bg-elevated)'"
+                    [style.color]="'var(--text-primary)'"
+                    [style.border-color]="'var(--border)'"
+                  />
+                  <input
+                    type="text"
+                    [ngModel]="spec.nameAr"
+                    (ngModelChange)="updateSpecTemplate(i, 'nameAr', $event)"
+                    placeholder="المعالج"
+                    dir="rtl"
+                    class="col-span-5 h-9 px-3 rounded-lg border text-xs focus:border-[var(--accent)] focus:outline-none transition-all"
+                    [style.background-color]="'var(--bg-elevated)'"
+                    [style.color]="'var(--text-primary)'"
+                    [style.border-color]="'var(--border)'"
+                  />
+                  <button
+                    type="button"
+                    (click)="removeSpecTemplate(i)"
+                    class="col-span-2 h-9 rounded-lg flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--badge-sale-fg)] hover:bg-[var(--badge-sale-bg)] transition-colors"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M18 6 6 18" />
+                      <path d="m6 6 12 12" />
+                    </svg>
+                  </button>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div
+        class="p-5 border-t border-[var(--border)] flex items-center justify-end gap-3 shrink-0"
+      >
+        <app-button variant="secondary" size="md" (clicked)="closeModal()">
+          {{ language.language() === 'ar' ? 'إلغاء' : 'Cancel' }}
+        </app-button>
+        <app-button
+          variant="primary"
+          size="md"
+          [loading]="saving()"
+          (clicked)="save()"
+        >
+          {{
+            isEditMode()
+              ? language.language() === 'ar'
+                ? 'حفظ'
+                : 'Save'
+              : language.language() === 'ar'
+                ? 'إنشاء'
+                : 'Create'
+          }}
+        </app-button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- ═══════════════════════════════════════════════════
+     MODAL: Delete confirmation
+     ═══════════════════════════════════════════════════ -->
+@if (deleteConfirmId()) {
+  <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div
+      class="absolute inset-0 bg-black/50 backdrop-blur-sm"
+      (click)="cancelDelete()"
+      aria-hidden="true"
+    ></div>
+
+    <div
+      class="relative w-full max-w-md rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] p-6 shadow-2xl animate-scale-in"
+    >
+      <div
+        class="w-12 h-12 rounded-full bg-[var(--badge-sale-bg)] flex items-center justify-center mb-4"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="var(--badge-sale-fg)"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+          <path d="M12 9v4" />
+          <path d="M12 17h.01" />
+        </svg>
+      </div>
+
+      <h3 class="text-lg font-bold text-[var(--text-primary)] mb-2">
+        {{ language.language() === 'ar' ? 'تأكيد الحذف' : 'Confirm Delete' }}
+      </h3>
+      <p class="text-sm text-[var(--text-secondary)] mb-6">
+        {{
+          language.language() === 'ar'
+            ? 'هل أنت متأكد؟ لا يمكن التراجع. لو فيه منتجات في الفئة، سيتم رفض الحذف.'
+            : 'Are you sure? This cannot be undone. If products are in this category, the delete will be rejected.'
+        }}
+      </p>
+
+      <div class="flex items-center gap-3 justify-end">
+        <app-button variant="secondary" size="md" (clicked)="cancelDelete()">
+          {{ language.language() === 'ar' ? 'إلغاء' : 'Cancel' }}
+        </app-button>
+        <app-button
+          variant="danger"
+          size="md"
+          [loading]="deleting()"
+          (clicked)="confirmDelete()"
+        >
+          {{ language.language() === 'ar' ? 'حذف' : 'Delete' }}
+        </app-button>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,234 @@
+/* ============================================================
+   Laptop Scrollytelling — Component Styles
+   ============================================================ */
+
+:host {
+  display: block;
+  /* Same heights as the navbar bar (h-16 / md:h-20) and the layout's <main> top padding. */
+  --nav-h: 4rem;
+  /* Home is the first content section: cancel <main>'s navbar padding so the section starts
+     at the very top of the page and its background runs behind the (fixed) navbar. */
+  margin-top: calc(-1 * var(--nav-h));
+}
+
+@media (min-width: 768px) {
+  :host {
+    --nav-h: 5rem;
+  }
+}
+
+/* ---- Scroll container ---- */
+.scrollytelling-scroll-container {
+  position: relative;
+  /* 500vh of scroll distance for smooth 192-frame animation */
+  height: 500vh;
+}
+
+/* ---- Sticky wrapper ---- */
+.scrollytelling-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Theme-aware backgrounds matching the frame imagery */
+  background-color: var(--scrollytelling-bg);
+}
+
+/* Light mode — matches the cloudy silver-grey of the light frames */
+:root {
+  --scrollytelling-bg: #c8cbd0;
+  --scrollytelling-text: #1a1a2e;
+  --scrollytelling-text-secondary: #3d3d5c;
+  --scrollytelling-progress-bg: rgba(0, 0, 0, 0.08);
+  --scrollytelling-progress-fill: rgba(0, 0, 0, 0.25);
+  --scrollytelling-loader-bg: rgba(0, 0, 0, 0.06);
+  --scrollytelling-loader-fill: rgba(0, 0, 0, 0.2);
+}
+
+/* Dark mode — matches the dark space nebula background of the dark frames */
+:root:has(.dark),
+.dark {
+  --scrollytelling-bg: #0c0e14;
+  --scrollytelling-text: #e8eaf0;
+  --scrollytelling-text-secondary: #a0a8b8;
+  --scrollytelling-progress-bg: rgba(255, 255, 255, 0.06);
+  --scrollytelling-progress-fill: rgba(255, 255, 255, 0.25);
+  --scrollytelling-loader-bg: rgba(255, 255, 255, 0.06);
+  --scrollytelling-loader-fill: rgba(255, 255, 255, 0.2);
+}
+
+/* ---- Canvas ---- */
+.scrollytelling-canvas-wrapper {
+  position: absolute;
+  /* Frame sits below the navbar so the laptop is never covered by it. */
+  inset: var(--nav-h) 0 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scrollytelling-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* ---- Story text overlay ---- */
+.scrollytelling-text {
+  position: absolute;
+  bottom: 8%;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding-inline: 1.5rem;
+  pointer-events: none;
+  z-index: 10;
+  transition: opacity 80ms ease-out;
+  will-change: opacity;
+}
+
+.scrollytelling-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--scrollytelling-text);
+  margin-bottom: 0.5rem;
+  text-wrap: balance;
+}
+
+.scrollytelling-subtitle {
+  font-size: clamp(0.875rem, 1.8vw, 1.125rem);
+  color: var(--scrollytelling-text-secondary);
+  max-width: 36rem;
+  margin-inline: auto;
+  line-height: 1.5;
+}
+
+/* ---- Progress indicator ---- */
+.scrollytelling-progress {
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 80px;
+  border-radius: 999px;
+  background: var(--scrollytelling-progress-bg);
+  z-index: 10;
+  overflow: hidden;
+}
+
+html[dir="rtl"] .scrollytelling-progress {
+  right: auto;
+  left: 1.5rem;
+}
+
+.scrollytelling-progress-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 999px;
+  background: var(--scrollytelling-progress-fill);
+  transition: height 100ms ease-out;
+}
+
+/* ---- Loading indicator ---- */
+.scrollytelling-loader {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+}
+
+.scrollytelling-loader-bar {
+  width: 120px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--scrollytelling-loader-bg);
+  overflow: hidden;
+}
+
+.scrollytelling-loader-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--scrollytelling-loader-fill);
+  transition: width 200ms ease-out;
+}
+
+/* ---- Reduced motion fallback ---- */
+.scrollytelling-reduced {
+  background-color: var(--scrollytelling-bg);
+}
+
+/* ---- Screen reader only ---- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ---- Responsive adjustments ---- */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .scrollytelling-scroll-container {
+    height: 400vh;
+  }
+
+  .scrollytelling-text {
+    bottom: 6%;
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .scrollytelling-scroll-container {
+    height: 350vh;
+  }
+
+  .scrollytelling-text {
+    bottom: 4%;
+    padding-inline: 1rem;
+  }
+
+  .scrollytelling-title {
+    font-size: clamp(1.25rem, 5vw, 1.75rem);
+  }
+
+  .scrollytelling-subtitle {
+    font-size: 0.875rem;
+  }
+
+  .scrollytelling-progress {
+    right: 0.75rem;
+    height: 60px;
+  }
+
+  html[dir="rtl"] .scrollytelling-progress {
+    right: auto;
+    left: 0.75rem;
+  }
+}
+
+/* ---- Transition for theme bg ---- */
+.scrollytelling-sticky {
+  transition: background-color 350ms ease;
+}
+

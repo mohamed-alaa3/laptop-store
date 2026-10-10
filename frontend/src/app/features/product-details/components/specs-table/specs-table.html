@@ -1,0 +1,74 @@
+<section class="mt-12 md:mt-16">
+  <!-- Heading -->
+  <div class="mb-6">
+    <h2 class="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">
+      {{ language.t('product.specifications') }}
+    </h2>
+    <p class="text-sm text-[var(--text-secondary)] mt-1">
+      {{ specs().length }}
+      {{ language.language() === 'ar' ? 'مواصفة' : 'specifications' }}
+    </p>
+  </div>
+
+  <!-- Desktop: table -->
+  <div
+    class="hidden md:block rounded-2xl border border-[var(--border)] overflow-hidden bg-[var(--bg-elevated)]"
+  >
+    <table class="w-full">
+      <thead>
+        <tr
+          class="bg-[var(--surface)] border-b border-[var(--border)]"
+        >
+          <th
+            class="text-start px-6 py-4 text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] w-1/3"
+          >
+            {{ language.t('product.specification') }}
+          </th>
+          <th
+            class="text-start px-6 py-4 text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]"
+          >
+            {{ language.t('product.details') }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (spec of specs(); track $index; let odd = $odd) {
+<tr
+  class="border-b border-[var(--border)] last:border-b-0 transition-colors hover:bg-[var(--surface)]"
+>
+            <td
+              class="px-6 py-4 text-sm font-medium text-[var(--text-secondary)]"
+            >
+              {{ getSpecName(spec) }}
+            </td>
+            <td
+              class="px-6 py-4 text-sm font-semibold text-[var(--text-primary)]"
+            >
+              {{ getSpecValue(spec) }}
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Mobile: cards -->
+  <div class="md:hidden space-y-2">
+    @for (spec of specs(); track $index) {
+      <div
+        class="p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] flex items-start justify-between gap-4"
+      >
+        <span
+          class="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider shrink-0"
+        >
+          {{ getSpecName(spec) }}
+        </span>
+        <span
+          class="text-sm font-semibold text-[var(--text-primary)] text-end"
+        >
+          {{ getSpecValue(spec) }}
+        </span>
+      </div>
+    }
+  </div>
+</section>

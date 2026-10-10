@@ -1,0 +1,385 @@
+<div class="container-app py-8 md:py-12">
+  <!-- Header -->
+  <div class="mb-6 md:mb-10 flex items-end justify-between gap-4 flex-wrap">
+    <div>
+      <h1
+        class="text-2xl md:text-4xl font-bold text-[var(--text-primary)] flex items-center gap-3"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="var(--accent)"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="md:w-8 md:h-8"
+        >
+          <path d="m16 16 4 4 4-4" />
+          <path d="M20 20V4" />
+          <path d="m8 8-4-4-4 4" />
+          <path d="M4 4v16" />
+        </svg>
+        {{ language.t('compare.title') }}
+      </h1>
+      @if (!loading() && count() > 0) {
+        <p class="text-sm text-[var(--text-secondary)] mt-2">
+          {{ count() }} / {{ max }}
+          {{ language.language() === 'ar' ? 'منتج' : 'products' }}
+        </p>
+      }
+    </div>
+
+    @if (!loading() && count() > 0) {
+      <div class="flex items-center gap-2">
+        <a routerLink="/shop">
+          <app-button variant="secondary" size="sm">
+            {{ language.language() === 'ar' ? 'إضافة المزيد' : 'Add more' }}
+          </app-button>
+        </a>
+        <button
+          type="button"
+          (click)="clearAll()"
+          class="inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-medium
+                 bg-[var(--surface)] text-[var(--text-secondary)]
+                 hover:bg-[var(--badge-sale-bg)] hover:text-[var(--badge-sale-fg)]
+                 transition-colors focus-ring"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3 6h18" />
+            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+          </svg>
+          <span class="hidden sm:inline">
+            {{ language.language() === 'ar' ? 'مسح الكل' : 'Clear all' }}
+          </span>
+        </button>
+      </div>
+    }
+  </div>
+
+  <!-- Loading -->
+  @if (loading()) {
+    <div class="space-y-4">
+      <app-skeleton shape="rect" width="100%" height="200px" />
+      <app-skeleton shape="rect" width="100%" height="400px" />
+    </div>
+  }
+
+  <!-- Empty state -->
+  @else if (isEmptyResults()) {
+    <app-empty-state
+      icon="compare"
+      [title]="language.t('compare.empty')"
+      [description]="language.t('compare.emptyHint')"
+      [actionLabel]="language.t('wishlist.browseProducts')"
+      actionLink="/shop"
+    />
+  }
+
+  <!-- Comparison content -->
+  @else {
+    <!-- ═══════════════════════════════════════════════════
+         DESKTOP: table (md+)
+         ═══════════════════════════════════════════════════ -->
+    <div
+      class="hidden md:block rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] overflow-hidden"
+    >
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr
+              class="border-b border-[var(--border)]"
+              style="background-color: var(--surface)"
+            >
+              <th
+                class="text-start p-4 text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] sticky start-0 z-10 min-w-[140px]"
+                style="background-color: var(--surface)"
+              >
+                {{ language.t('compare.feature') }}
+              </th>
+
+              @for (product of products(); track product._id) {
+                <th class="p-4 align-top min-w-[200px]">
+                  <div class="flex flex-col items-center gap-3">
+                    <a
+                      [routerLink]="['/product', product.slug]"
+                      class="w-full aspect-square max-w-[120px] rounded-xl overflow-hidden border border-[var(--border)] bg-[var(--surface)] flex items-center justify-center hover:border-[var(--accent)] transition-colors"
+                    >
+                      @if (getProductImage(product); as img) {
+                        <img
+                          [src]="img"
+                          [alt]="getProductName(product)"
+                          class="w-full h-full object-cover"
+                        />
+                      } @else {
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="40"
+                          height="40"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="var(--accent)"
+                          stroke-width="1.2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="opacity-50"
+                        >
+                          <path
+                            d="M18 5a2 2 0 0 1 2 2v8.526a2 2 0 0 0 .212.897l1.068 2.127a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45l1.068-2.127A2 2 0 0 0 4 15.526V7a2 2 0 0 1 2-2z"
+                          />
+                        </svg>
+                      }
+                    </a>
+
+                    <a
+                      [routerLink]="['/product', product.slug]"
+                      class="text-sm font-semibold text-[var(--text-primary)] text-center line-clamp-2 hover:text-[var(--accent)] transition-colors"
+                    >
+                      {{ getProductName(product) }}
+                    </a>
+
+                    <app-price-display
+                      [price]="product.price"
+                      [oldPrice]="product.oldPrice"
+                      size="sm"
+                    />
+
+                    <button
+                      type="button"
+                      (click)="removeProduct(product._id)"
+                      class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium
+                             bg-[var(--surface)] text-[var(--text-secondary)]
+                             hover:bg-[var(--badge-sale-bg)] hover:text-[var(--badge-sale-fg)]
+                             transition-colors focus-ring"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M18 6 6 18" />
+                        <path d="m6 6 12 12" />
+                      </svg>
+                      {{ language.t('compare.remove') }}
+                    </button>
+                  </div>
+                </th>
+              }
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (row of compareRows(); track row.specName) {
+              <tr
+                class="border-b border-[var(--border)] last:border-b-0 transition-colors hover:bg-[var(--surface)]/50"
+              >
+                <td
+                  class="p-4 text-sm font-medium text-[var(--text-secondary)] sticky start-0 z-10"
+                  style="background-color: var(--bg-elevated)"
+                >
+                  {{ row.specName }}
+                </td>
+
+                @for (value of row.values; track value.productId) {
+                  <td
+                    class="p-4 text-sm text-center"
+                    [class.text-[var(--text-primary)]]="!value.isEmpty"
+                    [class.font-semibold]="!value.isEmpty"
+                    [class.text-[var(--text-muted)]]="value.isEmpty"
+                  >
+                    {{ value.value }}
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         MOBILE: stacked cards (<md)
+         ═══════════════════════════════════════════════════ -->
+    <div class="md:hidden space-y-4">
+      @for (product of products(); track product._id) {
+        <div
+          class="rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] overflow-hidden"
+        >
+          <!-- Product header -->
+          <div class="p-4 flex items-start gap-4 border-b border-[var(--border)]">
+            <!-- Image -->
+            <a
+              [routerLink]="['/product', product.slug]"
+              class="shrink-0 w-20 h-20 rounded-xl overflow-hidden border border-[var(--border)] bg-[var(--surface)] flex items-center justify-center"
+            >
+              @if (getProductImage(product); as img) {
+                <img
+                  [src]="img"
+                  [alt]="getProductName(product)"
+                  class="w-full h-full object-cover"
+                />
+              } @else {
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="var(--accent)"
+                  stroke-width="1.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="opacity-50"
+                >
+                  <path
+                    d="M18 5a2 2 0 0 1 2 2v8.526a2 2 0 0 0 .212.897l1.068 2.127a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45l1.068-2.127A2 2 0 0 0 4 15.526V7a2 2 0 0 1 2-2z"
+                  />
+                </svg>
+              }
+            </a>
+
+            <!-- Name + price -->
+            <div class="flex-1 min-w-0">
+              <a
+                [routerLink]="['/product', product.slug]"
+                class="text-sm font-semibold text-[var(--text-primary)] line-clamp-2 hover:text-[var(--accent)] transition-colors block"
+              >
+                {{ getProductName(product) }}
+              </a>
+              <div class="mt-2">
+                <app-price-display
+                  [price]="product.price"
+                  [oldPrice]="product.oldPrice"
+                  size="sm"
+                />
+              </div>
+            </div>
+
+            <!-- Remove button -->
+            <button
+              type="button"
+              (click)="removeProduct(product._id)"
+              class="shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-[var(--surface)] text-[var(--text-muted)] hover:bg-[var(--badge-sale-bg)] hover:text-[var(--badge-sale-fg)] transition-colors focus-ring"
+              [attr.aria-label]="language.t('compare.remove')"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M18 6 6 18" />
+                <path d="m6 6 12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Specs list -->
+          @if (product.specifications.length > 0) {
+            <div class="divide-y divide-[var(--border)]">
+              @for (spec of product.specifications; track $index) {
+                <div class="px-4 py-3 flex items-start justify-between gap-4">
+                  <span
+                    class="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider shrink-0"
+                  >
+                    {{ getSpecName(spec) }}
+                  </span>
+                  <span
+                    class="text-sm font-semibold text-[var(--text-primary)] text-end"
+                  >
+                    {{ getSpecValue(spec) }}
+                  </span>
+                </div>
+              }
+            </div>
+          } @else {
+            <div class="px-4 py-3 text-xs text-[var(--text-muted)] text-center">
+              {{ language.language() === 'ar' ? 'لا توجد مواصفات' : 'No specifications' }}
+            </div>
+          }
+
+          <!-- View details button -->
+          <div class="p-4 border-t border-[var(--border)]">
+            <a
+              [routerLink]="['/product', product.slug]"
+              class="flex items-center justify-center gap-2 w-full h-10 rounded-full bg-[var(--accent-soft)] text-[var(--accent)] text-sm font-medium hover:bg-[var(--accent)] hover:text-white transition-colors"
+            >
+              {{ language.t('actions.viewDetails') }}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="rtl:rotate-180"
+              >
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Add more hint -->
+    @if (count() < max) {
+      <div class="mt-6 text-center">
+        <a
+          routerLink="/shop"
+          class="inline-flex items-center gap-2 px-5 h-10 rounded-full
+                 bg-[var(--surface)] text-[var(--text-secondary)] text-sm font-medium
+                 hover:bg-[var(--accent-soft)] hover:text-[var(--accent)]
+                 transition-colors focus-ring"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M12 5v14" />
+            <path d="M5 12h14" />
+          </svg>
+          {{
+            language.language() === 'ar'
+              ? 'أضف منتجات أخرى للمقارنة'
+              : 'Add more products to compare'
+          }}
+        </a>
+      </div>
+    }
+  }
+</div>

@@ -1,0 +1,282 @@
+<div class="space-y-6">
+  <!-- Category Section -->
+  <div class="border-b border-[var(--border)] pb-6">
+    <button
+      type="button"
+      (click)="toggleSection('category')"
+      class="w-full flex items-center justify-between gap-2 mb-4 group"
+    >
+      <h3
+        class="text-sm font-bold uppercase tracking-wider text-[var(--text-primary)]"
+      >
+        {{ language.t('product.category') }}
+      </h3>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="text-[var(--text-muted)] transition-transform duration-200"
+        [class.rotate-180]="!isExpanded('category')"
+      >
+        <path d="m6 9 6 6 6-6" />
+      </svg>
+    </button>
+
+    @if (isExpanded('category')) {
+      <div class="space-y-1">
+        @if (loadingCategories()) {
+          @for (i of [1, 2, 3, 4]; track i) {
+            <div class="h-8 rounded skeleton"></div>
+          }
+        } @else {
+          @for (category of categories(); track category._id) {
+            <button
+              type="button"
+              (click)="selectCategory(category._id)"
+              class="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-sm text-start transition-colors"
+              [class.bg-[var(--accent-soft)]]="isCategorySelected(category._id)"
+              [class.text-[var(--accent)]]="isCategorySelected(category._id)"
+              [class.font-medium]="isCategorySelected(category._id)"
+              [class.text-[var(--text-secondary)]]="!isCategorySelected(category._id)"
+              [class.hover:bg-[var(--surface)]]="!isCategorySelected(category._id)"
+            >
+              <span>{{ getCategoryName(category) }}</span>
+              @if (isCategorySelected(category._id)) {
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+              }
+            </button>
+          }
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Condition Section -->
+  <div class="border-b border-[var(--border)] pb-6">
+    <button
+      type="button"
+      (click)="toggleSection('condition')"
+      class="w-full flex items-center justify-between gap-2 mb-4"
+    >
+      <h3
+        class="text-sm font-bold uppercase tracking-wider text-[var(--text-primary)]"
+      >
+        {{ language.t('product.condition.new') }} /
+        {{ language.t('product.condition.imported') }}
+      </h3>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="text-[var(--text-muted)] transition-transform duration-200"
+        [class.rotate-180]="!isExpanded('condition')"
+      >
+        <path d="m6 9 6 6 6-6" />
+      </svg>
+    </button>
+
+    @if (isExpanded('condition')) {
+      <div class="space-y-1">
+        <button
+          type="button"
+          (click)="selectCondition('new')"
+          class="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-sm text-start transition-colors"
+          [class.bg-[var(--accent-soft)]]="isConditionSelected('new')"
+          [class.text-[var(--accent)]]="isConditionSelected('new')"
+          [class.font-medium]="isConditionSelected('new')"
+          [class.text-[var(--text-secondary)]]="!isConditionSelected('new')"
+          [class.hover:bg-[var(--surface)]]="!isConditionSelected('new')"
+        >
+          {{ language.t('product.condition.new') }}
+        </button>
+        <button
+          type="button"
+          (click)="selectCondition('imported')"
+          class="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-sm text-start transition-colors"
+          [class.bg-[var(--accent-soft)]]="isConditionSelected('imported')"
+          [class.text-[var(--accent)]]="isConditionSelected('imported')"
+          [class.font-medium]="isConditionSelected('imported')"
+          [class.text-[var(--text-secondary)]]="!isConditionSelected('imported')"
+          [class.hover:bg-[var(--surface)]]="!isConditionSelected('imported')"
+        >
+          {{ language.t('product.condition.imported') }}
+        </button>
+      </div>
+    }
+  </div>
+
+  <!-- Price Range Section -->
+  <div class="border-b border-[var(--border)] pb-6">
+    <button
+      type="button"
+      (click)="toggleSection('price')"
+      class="w-full flex items-center justify-between gap-2 mb-4"
+    >
+      <h3
+        class="text-sm font-bold uppercase tracking-wider text-[var(--text-primary)]"
+      >
+        {{ language.t('product.price') }}
+      </h3>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="text-[var(--text-muted)] transition-transform duration-200"
+        [class.rotate-180]="!isExpanded('price')"
+      >
+        <path d="m6 9 6 6 6-6" />
+      </svg>
+    </button>
+
+    @if (isExpanded('price')) {
+      <div class="space-y-3">
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label
+              class="block text-xs text-[var(--text-muted)] mb-1"
+              for="minPrice"
+            >
+              {{ language.language() === 'ar' ? 'من' : 'Min' }}
+            </label>
+            <input
+              id="minPrice"
+              type="number"
+              min="0"
+              [ngModel]="minPriceInput()"
+              (ngModelChange)="onMinPriceChange($event)"
+              (blur)="applyPriceRange()"
+              (keydown.enter)="applyPriceRange()"
+              placeholder="0"
+              class="w-full h-9 px-3 rounded-lg bg-[var(--bg-elevated)] border border-[var(--border)] text-sm text-[var(--text-primary)] focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)] transition-colors"
+            />
+          </div>
+          <div>
+            <label
+              class="block text-xs text-[var(--text-muted)] mb-1"
+              for="maxPrice"
+            >
+              {{ language.language() === 'ar' ? 'إلى' : 'Max' }}
+            </label>
+            <input
+              id="maxPrice"
+              type="number"
+              min="0"
+              [ngModel]="maxPriceInput()"
+              (ngModelChange)="onMaxPriceChange($event)"
+              (blur)="applyPriceRange()"
+              (keydown.enter)="applyPriceRange()"
+              placeholder="100000"
+              class="w-full h-9 px-3 rounded-lg bg-[var(--bg-elevated)] border border-[var(--border)] text-sm text-[var(--text-primary)] focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)] transition-colors"
+            />
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Badges Section -->
+  <div>
+    <button
+      type="button"
+      (click)="toggleSection('badges')"
+      class="w-full flex items-center justify-between gap-2 mb-4"
+    >
+      <h3
+        class="text-sm font-bold uppercase tracking-wider text-[var(--text-primary)]"
+      >
+        {{ language.language() === 'ar' ? 'المميزات' : 'Highlights' }}
+      </h3>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="text-[var(--text-muted)] transition-transform duration-200"
+        [class.rotate-180]="!isExpanded('badges')"
+      >
+        <path d="m6 9 6 6 6-6" />
+      </svg>
+    </button>
+
+    @if (isExpanded('badges')) {
+      <div class="space-y-2">
+        <label
+          class="flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer transition-colors hover:bg-[var(--surface)]"
+        >
+          <input
+            type="checkbox"
+            [checked]="query().featured === true"
+            (change)="toggleFeatured()"
+            class="w-4 h-4 rounded border-[var(--border)] text-[var(--accent)] focus:ring-[var(--accent)] focus:ring-offset-0"
+          />
+          <span class="text-sm text-[var(--text-secondary)]">
+            {{ language.t('product.badges.featured') }}
+          </span>
+        </label>
+
+        <label
+          class="flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer transition-colors hover:bg-[var(--surface)]"
+        >
+          <input
+            type="checkbox"
+            [checked]="query().newArrival === true"
+            (change)="toggleNewArrival()"
+            class="w-4 h-4 rounded border-[var(--border)] text-[var(--accent)] focus:ring-[var(--accent)] focus:ring-offset-0"
+          />
+          <span class="text-sm text-[var(--text-secondary)]">
+            {{ language.t('product.badges.new') }}
+          </span>
+        </label>
+
+        <label
+          class="flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer transition-colors hover:bg-[var(--surface)]"
+        >
+          <input
+            type="checkbox"
+            [checked]="query().onSale === true"
+            (change)="toggleOnSale()"
+            class="w-4 h-4 rounded border-[var(--border)] text-[var(--accent)] focus:ring-[var(--accent)] focus:ring-offset-0"
+          />
+          <span class="text-sm text-[var(--text-secondary)]">
+            {{ language.t('product.badges.sale') }}
+          </span>
+        </label>
+      </div>
+    }
+  </div>
+</div>

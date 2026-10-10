@@ -1,0 +1,89 @@
+<!-- Reduced motion: static image fallback -->
+@if (prefersReducedMotion()) {
+  <section
+    class="scrollytelling-reduced"
+    aria-label="{{ language.t('home.scrollytelling.ariaLabel') }}"
+  >
+    <div class="container-app py-20 md:py-32">
+      <div class="text-center space-y-6 mb-12">
+        <h2 class="display text-balance">
+          {{ language.t('home.scrollytelling.stage1Title') }}
+        </h2>
+        <p class="text-lg md:text-xl max-w-2xl mx-auto" style="color: var(--text-secondary)">
+          {{ language.t('home.scrollytelling.stage1Subtitle') }}
+        </p>
+      </div>
+
+      <div class="max-w-4xl mx-auto">
+        <img
+          [src]="fallbackImageSrc()"
+          [alt]="language.t('home.scrollytelling.ariaLabel')"
+          class="w-full h-auto rounded-2xl"
+          loading="eager"
+        />
+      </div>
+    </div>
+  </section>
+} @else {
+
+  <!-- Full scrollytelling experience -->
+  <section
+    #scrollContainer
+    class="scrollytelling-scroll-container"
+    [attr.aria-label]="language.t('home.scrollytelling.ariaLabel')"
+    role="region"
+  >
+    <!-- Sticky visual area -->
+    <div #stickyContainer class="scrollytelling-sticky">
+      <!-- Canvas -->
+      <div class="scrollytelling-canvas-wrapper">
+        <canvas
+          #scrollCanvas
+          class="scrollytelling-canvas"
+          aria-hidden="true"
+        ></canvas>
+      </div>
+
+      <!-- Loading indicator -->
+      @if (isLoading()) {
+        <div class="scrollytelling-loader" aria-live="polite">
+          <div class="scrollytelling-loader-bar">
+            <div
+              class="scrollytelling-loader-fill"
+              [style.width.%]="loadProgress()"
+            ></div>
+          </div>
+        </div>
+      }
+
+      <!-- Story text overlay -->
+      @if (activeStage(); as stage) {
+        <div
+          class="scrollytelling-text"
+          [style.opacity]="stageOpacity()"
+        >
+          <h2 class="scrollytelling-title">
+            {{ language.t(stage.titleKey) }}
+          </h2>
+          <p class="scrollytelling-subtitle">
+            {{ language.t(stage.subtitleKey) }}
+          </p>
+        </div>
+      }
+
+      <!-- Progress indicator -->
+      <div class="scrollytelling-progress" aria-hidden="true">
+        <div
+          class="scrollytelling-progress-fill"
+          [style.height.%]="scrollProgress() * 100"
+        ></div>
+      </div>
+
+      <!-- Accessible description -->
+      <div class="sr-only" role="status" aria-live="polite">
+        {{ language.t('home.scrollytelling.ariaLabel') }}
+      </div>
+    </div>
+  </section>
+}
+

@@ -1,0 +1,491 @@
+<div
+  class="min-h-screen flex"
+  style="background-color: var(--bg-primary)"
+>
+  <!-- ═══════════════════════════════════════════════════
+       SIDEBAR (Desktop)
+       ═══════════════════════════════════════════════════ -->
+  <aside
+    class="hidden lg:flex lg:flex-col shrink-0 border-e border-[var(--border)] transition-all duration-300"
+    [class.w-64]="isSidebarOpen()"
+    [class.w-20]="!isSidebarOpen()"
+    style="background-color: var(--bg-secondary)"
+  >
+    <!-- Sidebar header -->
+    <div
+      class="h-16 flex items-center justify-between px-4 border-b border-[var(--border)]"
+    >
+      @if (isSidebarOpen()) {
+        <a
+          routerLink="/"
+          class="flex items-center text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors"
+        >
+          <app-logo [size]="22" />
+        </a>
+      } @else {
+        <div class="w-full flex justify-center">
+          <a
+            routerLink="/"
+            class="text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect width="18" height="12" x="3" y="4" rx="2" />
+              <path d="M2 20h20" />
+            </svg>
+          </a>
+        </div>
+      }
+
+      @if (isSidebarOpen()) {
+        <button
+          type="button"
+          (click)="toggleSidebar()"
+          class="w-8 h-8 rounded-lg flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface)] transition-colors"
+          aria-label="Collapse sidebar"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="rtl:rotate-180"
+          >
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+        </button>
+      }
+    </div>
+
+    <!-- Nav links -->
+    <nav class="flex-1 p-3 space-y-1 overflow-y-auto">
+      <!-- Dashboard -->
+      <a
+        routerLink="/admin"
+        routerLinkActive="bg-[var(--accent-soft)] text-[var(--accent)]"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="flex items-center gap-3 h-10 px-3 rounded-lg text-sm font-medium
+               text-[var(--text-secondary)] hover:text-[var(--text-primary)]
+               hover:bg-[var(--surface)] transition-colors
+               focus-ring"
+        [class.justify-center]="!isSidebarOpen()"
+        [title]="isSidebarOpen() ? '' : language.language() === 'ar' ? 'لوحة التحكم' : 'Dashboard'"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="shrink-0"
+        >
+          <rect width="7" height="9" x="3" y="3" rx="1" />
+          <rect width="7" height="5" x="14" y="3" rx="1" />
+          <rect width="7" height="9" x="14" y="12" rx="1" />
+          <rect width="7" height="5" x="3" y="16" rx="1" />
+        </svg>
+        @if (isSidebarOpen()) {
+          <span class="truncate">
+            {{ language.language() === 'ar' ? 'لوحة التحكم' : 'Dashboard' }}
+          </span>
+        }
+      </a>
+
+      <!-- Products -->
+      <a
+        routerLink="/admin/products"
+        routerLinkActive="bg-[var(--accent-soft)] text-[var(--accent)]"
+        class="flex items-center gap-3 h-10 px-3 rounded-lg text-sm font-medium
+               text-[var(--text-secondary)] hover:text-[var(--text-primary)]
+               hover:bg-[var(--surface)] transition-colors
+               focus-ring"
+        [class.justify-center]="!isSidebarOpen()"
+        [title]="isSidebarOpen() ? '' : language.language() === 'ar' ? 'المنتجات' : 'Products'"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="shrink-0"
+        >
+          <path
+            d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"
+          />
+          <path d="m3.3 7 8.7 5 8.7-5" />
+          <path d="M12 22V12" />
+        </svg>
+        @if (isSidebarOpen()) {
+          <span class="truncate">
+            {{ language.language() === 'ar' ? 'المنتجات' : 'Products' }}
+          </span>
+        }
+      </a>
+
+      <!-- Categories -->
+      <a
+        routerLink="/admin/categories"
+        routerLinkActive="bg-[var(--accent-soft)] text-[var(--accent)]"
+        class="flex items-center gap-3 h-10 px-3 rounded-lg text-sm font-medium
+               text-[var(--text-secondary)] hover:text-[var(--text-primary)]
+               hover:bg-[var(--surface)] transition-colors
+               focus-ring"
+        [class.justify-center]="!isSidebarOpen()"
+        [title]="isSidebarOpen() ? '' : language.language() === 'ar' ? 'الفئات' : 'Categories'"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="shrink-0"
+        >
+          <path d="M3 3h.01" />
+          <path d="M7 3h.01" />
+          <path d="M11 3h.01" />
+          <path d="M15 3h.01" />
+          <path d="M19 3h.01" />
+          <path d="M3 7h.01" />
+          <path d="M7 7h.01" />
+          <path d="M11 7h.01" />
+          <path d="M15 7h.01" />
+          <path d="M19 7h.01" />
+          <rect width="18" height="18" x="3" y="3" rx="2" />
+          <path d="M3 12h18" />
+          <path d="M12 3v18" />
+        </svg>
+        @if (isSidebarOpen()) {
+          <span class="truncate">
+            {{ language.language() === 'ar' ? 'الفئات' : 'Categories' }}
+          </span>
+        }
+      </a>
+    </nav>
+
+    <!-- Sidebar footer (logout) -->
+    <div class="p-3 border-t border-[var(--border)]">
+      <button
+        type="button"
+        (click)="logout()"
+        class="flex items-center gap-3 w-full h-10 px-3 rounded-lg text-sm font-medium
+               text-[var(--text-secondary)] hover:text-[var(--badge-sale-fg)]
+               hover:bg-[var(--badge-sale-bg)] transition-colors
+               focus-ring"
+        [class.justify-center]="!isSidebarOpen()"
+        [title]="isSidebarOpen() ? '' : language.language() === 'ar' ? 'تسجيل الخروج' : 'Logout'"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="shrink-0"
+        >
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" x2="9" y1="12" y2="12" />
+        </svg>
+        @if (isSidebarOpen()) {
+          <span class="truncate">
+            {{ language.language() === 'ar' ? 'تسجيل الخروج' : 'Logout' }}
+          </span>
+        }
+      </button>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════════════════════════════════════
+       MOBILE SIDEBAR
+       ═══════════════════════════════════════════════════ -->
+  @if (isMobileSidebarOpen()) {
+    <div
+      class="fixed inset-0 z-50 lg:hidden"
+      (click)="closeMobileSidebar()"
+    >
+      <!-- Overlay -->
+      <div
+        class="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        aria-hidden="true"
+      ></div>
+
+      <!-- Drawer -->
+      <aside
+        class="absolute top-0 start-0 h-full w-64 flex flex-col border-e border-[var(--border)] shadow-2xl"
+        style="background-color: var(--bg-secondary)"
+        (click)="$event.stopPropagation()"
+      >
+        <!-- Header -->
+        <div
+          class="h-16 flex items-center justify-between px-4 border-b border-[var(--border)]"
+        >
+          <a
+            routerLink="/"
+            class="flex items-center text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors"
+          >
+            <app-logo [size]="22" />
+          </a>
+          <button
+            type="button"
+            (click)="closeMobileSidebar()"
+            class="w-8 h-8 rounded-lg flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface)] transition-colors"
+            aria-label="Close menu"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Nav -->
+        <nav class="flex-1 p-3 space-y-1 overflow-y-auto">
+          <a
+            routerLink="/admin"
+            routerLinkActive="bg-[var(--accent-soft)] text-[var(--accent)]"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="closeMobileSidebar()"
+            class="flex items-center gap-3 h-10 px-3 rounded-lg text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface)] transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect width="7" height="9" x="3" y="3" rx="1" />
+              <rect width="7" height="5" x="14" y="3" rx="1" />
+              <rect width="7" height="9" x="14" y="12" rx="1" />
+              <rect width="7" height="5" x="3" y="16" rx="1" />
+            </svg>
+            {{ language.language() === 'ar' ? 'لوحة التحكم' : 'Dashboard' }}
+          </a>
+          <a
+            routerLink="/admin/products"
+            routerLinkActive="bg-[var(--accent-soft)] text-[var(--accent)]"
+            (click)="closeMobileSidebar()"
+            class="flex items-center gap-3 h-10 px-3 rounded-lg text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface)] transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"
+              />
+              <path d="m3.3 7 8.7 5 8.7-5" />
+              <path d="M12 22V12" />
+            </svg>
+            {{ language.language() === 'ar' ? 'المنتجات' : 'Products' }}
+          </a>
+          <a
+            routerLink="/admin/categories"
+            routerLinkActive="bg-[var(--accent-soft)] text-[var(--accent)]"
+            (click)="closeMobileSidebar()"
+            class="flex items-center gap-3 h-10 px-3 rounded-lg text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface)] transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 3h.01" />
+              <path d="M7 3h.01" />
+              <path d="M11 3h.01" />
+              <path d="M15 3h.01" />
+              <path d="M19 3h.01" />
+              <path d="M3 7h.01" />
+              <path d="M7 7h.01" />
+              <path d="M11 7h.01" />
+              <path d="M15 7h.01" />
+              <path d="M19 7h.01" />
+              <rect width="18" height="18" x="3" y="3" rx="2" />
+              <path d="M3 12h18" />
+              <path d="M12 3v18" />
+            </svg>
+            {{ language.language() === 'ar' ? 'الفئات' : 'Categories' }}
+          </a>
+        </nav>
+
+        <!-- Footer -->
+        <div class="p-3 border-t border-[var(--border)]">
+          <button
+            type="button"
+            (click)="logout()"
+            class="flex items-center gap-3 w-full h-10 px-3 rounded-lg text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--badge-sale-fg)] hover:bg-[var(--badge-sale-bg)] transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" x2="9" y1="12" y2="12" />
+            </svg>
+            {{ language.language() === 'ar' ? 'تسجيل الخروج' : 'Logout' }}
+          </button>
+        </div>
+      </aside>
+    </div>
+  }
+
+  <!-- ═══════════════════════════════════════════════════
+       MAIN CONTENT
+       ═══════════════════════════════════════════════════ -->
+  <div class="flex-1 flex flex-col min-w-0">
+    <!-- Topbar -->
+    <header
+      class="sticky top-0 z-40 h-16 border-b border-[var(--border)] backdrop-blur-xl"
+      style="background-color: color-mix(in srgb, var(--bg-primary) 85%, transparent)"
+    >
+      <div class="h-full px-4 md:px-6 flex items-center justify-between gap-4">
+        <!-- Left: mobile menu + sidebar toggle -->
+        <div class="flex items-center gap-2">
+          <button
+            type="button"
+            (click)="toggleMobileSidebar()"
+            class="lg:hidden w-10 h-10 rounded-lg flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface)] transition-colors"
+            aria-label="Open menu"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="4" x2="20" y1="12" y2="12" />
+              <line x1="4" x2="20" y1="6" y2="6" />
+              <line x1="4" x2="20" y1="18" y2="18" />
+            </svg>
+          </button>
+
+          @if (!isSidebarOpen()) {
+            <button
+              type="button"
+              (click)="toggleSidebar()"
+              class="hidden lg:flex w-10 h-10 rounded-lg items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface)] transition-colors"
+              aria-label="Expand sidebar"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="rtl:rotate-180"
+              >
+                <line x1="4" x2="20" y1="12" y2="12" />
+                <line x1="4" x2="20" y1="6" y2="6" />
+                <line x1="4" x2="20" y1="18" y2="18" />
+              </svg>
+            </button>
+          }
+        </div>
+
+        <!-- Right: actions -->
+        <div class="flex items-center gap-2">
+          <app-theme-toggle />
+          <app-language-toggle />
+
+          <!-- User -->
+          <div class="flex items-center gap-2 ps-2 border-s border-[var(--border)]">
+            <div
+              class="w-9 h-9 rounded-full bg-[var(--accent)] text-white text-sm font-bold flex items-center justify-center"
+            >
+              {{ getInitial() }}
+            </div>
+            <div class="hidden sm:block">
+              <p class="text-xs font-semibold text-[var(--text-primary)] leading-tight">
+                {{ user()?.username }}
+              </p>
+              <p class="text-[10px] text-[var(--text-muted)] leading-tight">
+                {{ user()?.email }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <main class="flex-1 p-4 md:p-6 lg:p-8">
+      <router-outlet />
+    </main>
+  </div>
+</div>

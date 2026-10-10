@@ -1,0 +1,221 @@
+<div class="container-app py-8 md:py-12">
+  <!-- Header -->
+  <div appScrollReveal class="text-center max-w-2xl mx-auto mb-10">
+    <h1 class="text-3xl md:text-4xl font-bold text-[var(--text-primary)] mb-3">
+      {{ language.t('nav.categories') }}
+    </h1>
+    <p class="text-base text-[var(--text-secondary)]">
+      {{
+        language.language() === 'ar'
+          ? 'تصفح منتجاتنا حسب الفئة'
+          : 'Browse our products by category'
+      }}
+    </p>
+  </div>
+
+  <!-- Loading -->
+  @if (loading()) {
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+        <div
+          class="rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] p-6 space-y-4"
+        >
+          <app-skeleton variant="accent" shape="rect" width="56px" height="56px" />
+          <app-skeleton width="60%" height="1.25rem" />
+          <app-skeleton width="90%" height="0.875rem" />
+          <app-skeleton width="70%" height="0.875rem" />
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Empty -->
+  @else if (categories().length === 0) {
+    <app-empty-state
+      icon="folder"
+      [title]="
+        language.language() === 'ar'
+          ? 'لا توجد فئات'
+          : 'No categories available'
+      "
+      [description]="
+        language.language() === 'ar'
+          ? 'سيتم إضافة الفئات قريباً'
+          : 'Categories will be added soon'
+      "
+      [actionLabel]="language.language() === 'ar' ? 'تصفح المتجر' : 'Browse Shop'"
+      actionLink="/shop"
+    />
+  }
+
+  <!-- Categories grid -->
+  @else {
+    <div
+      appStagger
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+    >
+      @for (cat of categories(); track cat._id) {
+        <a
+          [routerLink]="['/shop']"
+          [queryParams]="{ category: cat._id }"
+          class="group relative p-6 rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] transition-all duration-300 hover:border-[var(--accent)] hover:shadow-xl hover:-translate-y-1 focus-ring overflow-hidden"
+        >
+          <!-- Subtle gradient on hover -->
+          <div
+            class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+            style="background: linear-gradient(135deg, var(--accent-soft) 0%, transparent 60%)"
+            aria-hidden="true"
+          ></div>
+
+          <div class="relative">
+            <!-- Icon -->
+            <div
+              class="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-110"
+              style="background: var(--accent-soft); color: var(--accent)"
+            >
+              @switch (getIconForCategory(cat.slug)) {
+                @case ('laptop') {
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M18 5a2 2 0 0 1 2 2v8.526a2 2 0 0 0 .212.897l1.068 2.127a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45l1.068-2.127A2 2 0 0 0 4 15.526V7a2 2 0 0 1 2-2z"
+                    />
+                    <path d="M20.054 15.987H3.946" />
+                  </svg>
+                }
+                @case ('desktop') {
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect width="20" height="14" x="2" y="3" rx="2" />
+                    <line x1="8" x2="16" y1="21" y2="21" />
+                    <line x1="12" x2="12" y1="17" y2="21" />
+                  </svg>
+                }
+                @case ('monitor') {
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect width="20" height="14" x="2" y="3" rx="2" />
+                    <line x1="8" x2="16" y1="21" y2="21" />
+                    <line x1="12" x2="12" y1="17" y2="21" />
+                  </svg>
+                }
+                @case ('headphones') {
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3" />
+                  </svg>
+                }
+                @case ('gamepad') {
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="6" x2="10" y1="12" y2="12" />
+                    <line x1="8" x2="8" y1="10" y2="14" />
+                    <line x1="15" x2="15.01" y1="13" y2="13" />
+                    <line x1="18" x2="18.01" y1="11" y2="11" />
+                    <rect width="20" height="12" x="2" y="6" rx="6" />
+                  </svg>
+                }
+                @default {
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"
+                    />
+                  </svg>
+                }
+              }
+            </div>
+
+            <!-- Name -->
+            <h2 class="text-lg font-bold text-[var(--text-primary)] mb-2 group-hover:text-[var(--accent)] transition-colors">
+              {{ getCategoryName(cat) }}
+            </h2>
+
+            <!-- Description -->
+            @if (getCategoryDescription(cat)) {
+              <p class="text-sm text-[var(--text-secondary)] line-clamp-2 mb-4">
+                {{ getCategoryDescription(cat) }}
+              </p>
+            }
+
+            <!-- Arrow -->
+            <div
+              class="flex items-center gap-1.5 text-sm font-medium text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            >
+              {{ language.language() === 'ar' ? 'تصفح' : 'Browse' }}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="rtl:rotate-180 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform"
+              >
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </a>
+      }
+    </div>
+  }
+</div>

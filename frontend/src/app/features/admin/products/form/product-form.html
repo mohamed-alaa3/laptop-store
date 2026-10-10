@@ -1,0 +1,113 @@
+<div class="space-y-6 max-w-5xl">
+  <!-- Header -->
+  <div class="flex items-center justify-between gap-4 flex-wrap">
+    <div class="flex items-center gap-3">
+      <a
+        routerLink="/admin/products"
+        class="w-10 h-10 rounded-xl border border-[var(--border)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors focus-ring"
+        [attr.aria-label]="language.language() === 'ar' ? 'رجوع' : 'Back'"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="rtl:rotate-180"
+        >
+          <path d="m12 19-7-7 7-7" />
+          <path d="M19 12H5" />
+        </svg>
+      </a>
+      <div>
+        <h1 class="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">
+          {{ pageTitle() }}
+        </h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  @if (loading()) {
+    <div class="space-y-4">
+      <app-skeleton width="100%" height="200px" />
+      <app-skeleton width="100%" height="200px" />
+    </div>
+  } @else {
+    <!-- Form -->
+    <div class="space-y-6">
+      <app-basic-info-section
+        [form]="form()"
+        [categories]="categories()"
+        (update)="updateForm($event.key, $event.value)"
+      />
+
+      <app-pricing-stock-section
+        [form]="form()"
+        (update)="updateForm($event.key, $event.value)"
+      />
+
+      <app-specifications-section
+        [specifications]="form().specifications"
+        (update)="updateForm('specifications', $event)"
+      />
+
+      <app-offers-section
+        [form]="form()"
+        [products]="allProducts()"
+        (update)="updateForm($event.key, $event.value)"
+      />
+
+      <app-images-section
+        [images]="currentImages()"
+        (imagesChange)="currentImages.set($event)"
+      />
+
+      <!-- Actions -->
+      <div
+        class="sticky bottom-0 z-10 -mx-4 md:-mx-6 lg:-mx-8 px-4 md:px-6 lg:px-8 py-4 border-t border-[var(--border)] backdrop-blur-xl flex items-center justify-end gap-3"
+        style="background-color: color-mix(in srgb, var(--bg-primary) 85%, transparent)"
+      >
+        <app-button variant="secondary" size="lg" (clicked)="cancel()">
+          {{ language.language() === 'ar' ? 'إلغاء' : 'Cancel' }}
+        </app-button>
+        <app-button
+          variant="primary"
+          size="lg"
+          [loading]="saving()"
+          (clicked)="save()"
+        >
+          @if (!saving()) {
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14" />
+              <path d="M12 5v14" />
+            </svg>
+          }
+          {{
+            isEdit()
+              ? language.language() === 'ar'
+                ? 'حفظ التعديلات'
+                : 'Save Changes'
+              : language.language() === 'ar'
+                ? 'إنشاء المنتج'
+                : 'Create Product'
+          }}
+        </app-button>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,58 @@
+<section class="container-app py-16 md:py-20">
+  <!-- Header -->
+  <div appScrollReveal class="flex items-end justify-between mb-10">
+    <div>
+      <h2 class="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">
+        {{ language.t('home.trendingProducts.title') }}
+      </h2>
+      <p class="text-sm text-[var(--text-secondary)] mt-1">
+        {{ language.t('home.trendingProducts.subtitle') }}
+      </p>
+    </div>
+    <a
+      routerLink="/shop"
+      class="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-[var(--accent)] hover:text-[var(--accent-hover)] transition-colors focus-ring rounded"
+    >
+      {{ language.t('actions.browseAll') }}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="rtl:rotate-180"
+      >
+        <path d="M5 12h14" />
+        <path d="m12 5 7 7-7 7" />
+      </svg>
+    </a>
+  </div>
+
+  <!-- Grid -->
+  @if (loading()) {
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"
+    >
+      @for (item of [1, 2, 3, 4, 5, 6, 7, 8]; track item) {
+        <app-product-skeleton />
+      }
+    </div>
+  } @else if (products().length > 0) {
+    <div
+      appStagger
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"
+    >
+      @for (product of products(); track product._id) {
+        <app-product-card [product]="product" />
+      }
+    </div>
+  } @else {
+    <div class="text-center py-12 text-[var(--text-muted)]">
+     {{ language.t('home.trendingProducts.empty') }}
+    </div>
+  }
+</section>

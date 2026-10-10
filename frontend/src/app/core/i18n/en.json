@@ -1,0 +1,231 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Try again",
+    "close": "Close",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "filter": "Filter",
+    "all": "All",
+    "yes": "Yes",
+    "no": "No",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous"
+  },
+"nav": {
+  "home": "Home",
+  "shop": "Shop",
+  "categories": "Categories",
+  "wishlist": "Wishlist",
+  "compare": "Compare",
+  "search": "Search",
+  "searchPlaceholder": "Search products...",
+  "language": "Language",
+  "theme": "Theme",
+  "admin": "Admin"
+},
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "toggle": "Toggle theme"
+  },
+  "language": {
+    "en": "English",
+    "ar": "العربية",
+    "toggle": "Toggle language"
+  },
+  "product": {
+    "condition": {
+      "new": "New",
+      "imported": "Imported"
+    },
+    "badges": {
+      "new": "New",
+      "sale": "Sale",
+      "freeGift": "Free Gift",
+      "featured": "Featured"
+    },
+    "specifications": "Specifications",
+    "specification": "Specification",
+    "details": "Details",
+    "description": "Description",
+    "price": "Price",
+    "oldPrice": "Old price",
+    "stock": "Stock",
+    "inStock": "In Stock",
+    "outOfStock": "Out of Stock",
+    "lowStock": "Low Stock",
+    "brand": "Brand",
+    "category": "Category",
+    "discount": "Discount",
+    "save": "Save",
+    "off": "OFF"
+  },
+  "actions": {
+    "addToWishlist": "Add to Wishlist",
+    "removeFromWishlist": "Remove from Wishlist",
+    "addToCompare": "Add to Compare",
+    "removeFromCompare": "Remove from Compare",
+    "viewDetails": "View Details",
+    "askOnWhatsApp": "Ask on WhatsApp",
+    "shopNow": "Shop Now",
+    "exploreProducts": "Explore Products",
+    "shopGaming": "Shop Gaming",
+    "browseAll": "Browse All"
+  },
+  "whatsapp": {
+    "productMessage": "Hello, I would like to know more details about",
+    "generalMessage": "Hello, I have a question"
+  },
+  "home": {
+  "hero": {
+    "title": "Build Your Next Level.",
+    "subtitle": "Powerful laptops, PCs and tech essentials built for your next move.",
+    "cta": "Explore Products",
+    "ctaSecondary": "Shop Gaming",
+    "badge": "New arrivals just landed",
+    "statProducts": "Products",
+    "statCustomers": "Customers",
+    "statSupport": "Support"
+  },
+  "featuredCategories": {
+    "title": "Shop by Category",
+    "subtitle": "Find exactly what you need"
+  },
+  "trendingProducts": {
+    "title": "Trending Now",
+    "subtitle": "Our most popular picks",
+    "empty": "No trending products available right now."
+  },
+  "findYourDevice": {
+    "title": "Find Your Perfect Device",
+    "subtitle": "Choose your use case and we'll show you the best options",
+    "gaming": "Gaming",
+    "gamingDesc": "High-performance rigs",
+    "work": "Work & Business",
+    "workDesc": "Reliable and fast",
+    "design": "Design & Creative",
+    "designDesc": "Color-accurate displays",
+    "student": "Student",
+    "studentDesc": "Best value for money"
+  },
+  "promo": {
+    "badge": "Limited Time",
+    "title": "Level Up Your",
+    "titleHighlight": "Gaming Setup",
+    "subtitle": "Up to 25% off on selected gaming laptops, monitors, and accessories. Built for performance, priced for winners.",
+    "highlight1": "Up to 25% off",
+    "highlight2": "Free gaming mouse",
+    "highlight3": "Extended warranty",
+    "cta": "Shop Gaming Deals"
+  },
+  "whyChooseUs": {
+    "title": "Why Choose Us",
+    "subtitle": "Built on trust and quality",
+    "fastShipping": "Fast Shipping",
+    "fastShippingDesc": "Quick delivery to your door",
+    "warranty": "Warranty",
+    "warrantyDesc": "Full warranty on all products",
+    "support": "24/7 Support",
+    "supportDesc": "We're here when you need us",
+    "securePayment": "Secure Payment",
+    "securePaymentDesc": "Your data is protected"
+  },
+  "whatsappCta": {
+    "title": "Need Help Choosing?",
+    "subtitle": "Our team is here to help you find the perfect device. Ask us anything on WhatsApp.",
+    "replies": "Typically replies within minutes"
+  },
+  "scrollytelling": {
+    "ariaLabel": "Interactive laptop product presentation",
+    "stage1Title": "Engineered to Perform.",
+    "stage1Subtitle": "A fusion of power and precision, designed for those who demand more.",
+    "stage2Title": "Beyond the Surface.",
+    "stage2Subtitle": "Every layer reveals engineering excellence — from display to chassis.",
+    "stage3Title": "The Heart of Power.",
+    "stage3Subtitle": "Advanced thermal architecture and cutting-edge components working in harmony.",
+    "stage4Title": "Built Without Compromise.",
+    "stage4Subtitle": "From high-capacity battery to reinforced frame — every detail matters.",
+    "stage5Title": "Every Component, Perfected.",
+    "stage5Subtitle": "Precision-crafted from the inside out, delivering unmatched performance."
+  }
+},
+  "shop": {
+    "title": "Shop",
+    "filters": "Filters",
+    "sortBy": "Sort by",
+    "sort": {
+      "newest": "Newest",
+      "oldest": "Oldest",
+      "priceAsc": "Price: Low to High",
+      "priceDesc": "Price: High to Low",
+      "nameAsc": "Name: A-Z",
+      "nameDesc": "Name: Z-A"
+    },
+    "noResults": "No products found",
+    "noResultsHint": "Try adjusting your filters",
+    "showMore": "Show More",
+    "showingResults": "Showing {count} of {total}"
+  },
+  "productDetails": {
+    "aboutProduct": "About this product",
+    "specs": "Specifications",
+    "relatedProducts": "You may also like",
+    "addedToWishlist": "Added to wishlist",
+    "removedFromWishlist": "Removed from wishlist",
+    "addedToCompare": "Added to compare",
+    "removedFromCompare": "Removed from compare",
+    "compareFull": "Compare list is full (max 4)"
+  },
+"wishlist": {
+  "title": "My Wishlist",
+  "empty": "Your wishlist is empty",
+  "emptyHint": "Start adding products you love",
+  "browseProducts": "Browse Products",
+  "clear": "Clear All",
+  "clearConfirm": "Are you sure you want to clear your wishlist?"
+},
+"compare": {
+  "title": "Compare Products",
+  "empty": "No products to compare",
+  "emptyHint": "Add up to 4 products to compare",
+  "max": "Maximum 4 products",
+  "feature": "Feature",
+  "remove": "Remove"
+},
+  "footer": {
+    "about": "About Us",
+    "aboutText": "Your trusted destination for premium computers and tech.",
+    "quickLinks": "Quick Links",
+    "contact": "Contact",
+    "followUs": "Follow Us",
+    "rights": "All rights reserved"
+  },
+  "admin": {
+    "login": "Admin Login",
+    "username": "Username",
+    "password": "Password",
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "dashboard": "Dashboard",
+    "products": "Products",
+    "categories": "Categories",
+    "totalProducts": "Total Products",
+    "totalCategories": "Total Categories",
+    "lowStock": "Low Stock Products",
+    "featuredProducts": "Featured Products",
+    "productsOnSale": "Products on Sale"
+  },
+  "errors": {
+    "notFound": "Page not found",
+    "notFoundHint": "The page you're looking for doesn't exist",
+    "goHome": "Go Home",
+    "networkError": "Network error. Please check your connection.",
+    "serverError": "Server error. Please try again later."
+  }
+}

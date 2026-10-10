@@ -1,0 +1,130 @@
+<div class="container-app py-8 md:py-12">
+  <!-- Header + Search Bar -->
+  <div class="max-w-3xl mx-auto mb-10">
+    <h1 class="text-3xl md:text-4xl font-bold text-[var(--text-primary)] text-center mb-6">
+      {{ language.language() === 'ar' ? 'البحث' : 'Search' }}
+    </h1>
+
+    <form (submit)="onSearchSubmit($event)" class="relative">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="absolute top-1/2 -translate-y-1/2 start-5 text-[var(--text-muted)] pointer-events-none"
+      >
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.3-4.3" />
+      </svg>
+
+      <input
+        type="search"
+        [ngModel]="query()"
+        (ngModelChange)="onSearchInput($event)"
+        name="q"
+        [placeholder]="language.t('nav.searchPlaceholder')"
+        class="w-full h-14 ps-14 pe-32 rounded-2xl border text-base focus:border-[var(--accent)] focus:outline-none focus:ring-4 focus:ring-[var(--accent)]/15 transition-all"
+        [style.background-color]="'var(--surface)'"
+        [style.color]="'var(--text-primary)'"
+        [style.border-color]="'var(--border)'"
+      />
+
+      @if (query()) {
+        <button
+          type="button"
+          (click)="clearSearch()"
+          class="absolute top-1/2 -translate-y-1/2 end-32 w-8 h-8 rounded-full flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)] transition-colors"
+          aria-label="Clear"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </button>
+      }
+
+      <button
+        type="submit"
+        class="absolute top-1/2 -translate-y-1/2 end-2 h-10 px-5 rounded-xl bg-[var(--accent)] text-white text-sm font-medium hover:bg-[var(--accent-hover)] transition-colors focus-ring"
+      >
+        {{ language.language() === 'ar' ? 'ابحث' : 'Search' }}
+      </button>
+    </form>
+
+    <!-- Results count -->
+    @if (hasSearched() && !loading() && results().length > 0) {
+      <p class="text-sm text-[var(--text-secondary)] text-center mt-4">
+        {{ results().length }}
+        {{ language.language() === 'ar' ? 'نتيجة' : 'results' }}
+        @if (query()) {
+          {{ language.language() === 'ar' ? 'لـ' : 'for' }}
+          <span class="font-semibold text-[var(--text-primary)]">"{{ query() }}"</span>
+        }
+      </p>
+    }
+  </div>
+
+  <!-- Content -->
+  @if (loading()) {
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"
+    >
+      @for (item of [1, 2, 3, 4, 5, 6, 7, 8]; track item) {
+        <app-product-skeleton />
+      }
+    </div>
+  } @else if (!hasSearched()) {
+    <!-- Initial state: no search yet -->
+    <app-empty-state
+      icon="search"
+      [title]="language.language() === 'ar' ? 'ابحث عن منتجات' : 'Search for products'"
+      [description]="
+        language.language() === 'ar'
+          ? 'اكتب اسم منتج أو ماركة للبدء'
+          : 'Type a product name or brand to start'
+      "
+      [variant]="'accent'"
+    />
+  } @else if (results().length === 0) {
+    <!-- No results -->
+    <app-empty-state
+      icon="search"
+      [title]="
+        language.language() === 'ar'
+          ? 'لا توجد نتائج'
+          : 'No results found'
+      "
+      [description]="
+        language.language() === 'ar'
+          ? 'جرّب كلمات بحث مختلفة'
+          : 'Try different search terms'
+      "
+      [actionLabel]="language.language() === 'ar' ? 'تصفح المتجر' : 'Browse Shop'"
+      actionLink="/shop"
+    />
+  } @else {
+    <!-- Results grid -->
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"
+    >
+      @for (product of results(); track product._id) {
+        <app-product-card [product]="product" />
+      }
+    </div>
+  }
+</div>
