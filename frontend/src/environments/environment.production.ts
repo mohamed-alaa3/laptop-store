@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'laptop-store-production-b250.up.railway.app', // ← غيّره وقت النشر
+  apiUrl: 'https://laptop-store-production-b250.up.railway.app/api',
   whatsappNumber: '201008150149',
 } as const;
 
