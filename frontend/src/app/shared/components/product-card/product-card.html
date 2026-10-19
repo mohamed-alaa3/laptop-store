@@ -1,5 +1,5 @@
 <article
-  class="group relative flex flex-col h-full rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] overflow-hidden transition-all duration-300 hover:border-[var(--accent)] hover:shadow-xl hover:-translate-y-1"
+  class="card-premium group relative flex flex-col h-full rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] overflow-hidden"
 >
   <!-- Image container -->
   <a
@@ -195,7 +195,7 @@
 
       <a
         [routerLink]="['/product', product().slug]"
-        class="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-[var(--accent)] text-white transition-all duration-200 hover:bg-[var(--accent-hover)] hover:scale-105 focus-ring"
+        class="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-[var(--accent)] text-white transition-all duration-200 hover:scale-110 focus-ring card-cta"
         [attr.aria-label]="language.t('actions.viewDetails')"
       >
         <svg

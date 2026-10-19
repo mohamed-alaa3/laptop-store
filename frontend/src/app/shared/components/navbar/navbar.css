@@ -4,6 +4,22 @@
 
 .navbar {
   will-change: transform;
+  transition:
+    transform 420ms var(--ease-out),
+    background-color 300ms ease,
+    border-color 300ms ease,
+    box-shadow 300ms ease;
+}
+
+/* Once the page is scrolled the bar becomes frosted glass with a soft shadow. */
+.navbar--solid {
+  -webkit-backdrop-filter: blur(18px) saturate(170%);
+  backdrop-filter: blur(18px) saturate(170%);
+  box-shadow: 0 10px 30px -20px rgba(16, 24, 40, 0.35);
+}
+
+html.dark .navbar--solid {
+  box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.8);
 }
 
 /* Smart navbar: slides up out of view while scrolling down, back in when scrolling up. */

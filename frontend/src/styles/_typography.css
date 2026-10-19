@@ -18,59 +18,68 @@ html[lang="ar"] {
   --font-display: "IBM Plex Sans Arabic", "Inter", sans-serif;
 }
 
-body {
-  font-size: 1rem;
-  line-height: 1.6;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-}
+/* Element defaults live in @layer base so Tailwind utilities can override them. */
+@layer base {
+  body {
+    font-size: 1rem;
+    line-height: 1.6;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-display);
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  margin: 0;
-  color: var(--text-primary);
-}
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin: 0;
+    color: var(--text-primary);
+  }
 
-h1 {
-  font-size: clamp(2rem, 4vw, 3rem);
-}
+  /* Arabic is a connected script: any letter-spacing breaks the joins. */
+  html[lang="ar"] body,
+  html[lang="ar"] :is(h1, h2, h3, h4, h5, h6) {
+    letter-spacing: 0;
+  }
 
-h2 {
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
-}
+  h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
 
-h3 {
-  font-size: 1.5rem;
-}
+  h2 {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+  }
 
-h4 {
-  font-size: 1.25rem;
-}
+  h3 {
+    font-size: 1.5rem;
+  }
 
-h5 {
-  font-size: 1.125rem;
-}
+  h4 {
+    font-size: 1.25rem;
+  }
 
-h6 {
-  font-size: 1rem;
-}
+  h5 {
+    font-size: 1.125rem;
+  }
 
-p {
-  margin: 0;
-  color: var(--text-secondary);
-}
+  h6 {
+    font-size: 1rem;
+  }
 
-small {
-  font-size: 0.875rem;
-  color: var(--text-muted);
+  p {
+    margin: 0;
+    color: var(--text-secondary);
+  }
+
+  small {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
 }
 
 .display {
@@ -84,4 +93,55 @@ small {
 .mono {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
+}
+
+/* ---- Brand text gradient ---- */
+.gradient-text {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---- Section headings (home sections) ---- */
+.section-title {
+  font-size: clamp(1.625rem, 3vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 2.75rem;
+  height: 3px;
+  margin-top: 0.85rem;
+  border-radius: 999px;
+  background: var(--gradient-brand);
+  transform-origin: left center;
+  transition: transform 800ms var(--ease-out) 150ms;
+}
+
+html[dir="rtl"] .section-title::after {
+  transform-origin: right center;
+}
+
+.text-center > .section-title::after {
+  margin-inline: auto;
+  transform-origin: center;
+}
+
+/* The bar draws itself in when the heading's wrapper is revealed */
+.scroll-reveal:not(.is-visible) .section-title::after {
+  transform: scaleX(0);
+}
+
+html[lang="ar"] .section-title,
+html[lang="ar"] .tracking-wide,
+html[lang="ar"] .tracking-wider,
+html[lang="ar"] .tracking-widest {
+  letter-spacing: 0;
 }

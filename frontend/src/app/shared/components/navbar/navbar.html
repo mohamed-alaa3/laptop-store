@@ -1,11 +1,12 @@
 <header
-  class="navbar fixed top-0 inset-x-0 z-50 transition-all duration-300"
+  class="navbar fixed top-0 inset-x-0 z-50"
   [class.navbar--hidden]="isHidden()"
+  [class.navbar--solid]="isScrolled() || isMobileMenuOpen()"
   (focusin)="onFocusIn($event)"
   (focusout)="onFocusOut($event)"
   [class.backdrop-blur-xl]="isScrolled() || isMobileMenuOpen()"
   [class.border-b]="isScrolled() || isMobileMenuOpen()"
-  [style.background-color]="isScrolled() || isMobileMenuOpen() ? 'color-mix(in srgb, var(--bg-primary) 95%, transparent)' : 'transparent'"
+  [style.background-color]="isScrolled() || isMobileMenuOpen() ? 'var(--glass-bg)' : 'transparent'"
   [style.border-color]="isScrolled() || isMobileMenuOpen() ? 'var(--border)' : 'transparent'"
 >
   <nav class="container-app">
@@ -24,7 +25,7 @@
       <div class="hidden md:flex items-center gap-1">
         <a
           routerLink="/"
-          routerLinkActive="text-[var(--accent)] bg-[var(--accent-soft)]"
+          routerLinkActive="nav-link-active"
           [routerLinkActiveOptions]="{ exact: true }"
           class="px-4 py-2 rounded-full text-sm font-medium
                  text-[var(--text-secondary)] hover:text-[var(--text-primary)]
@@ -35,7 +36,7 @@
         </a>
         <a
           routerLink="/shop"
-          routerLinkActive="text-[var(--accent)] bg-[var(--accent-soft)]"
+          routerLinkActive="nav-link-active"
           class="px-4 py-2 rounded-full text-sm font-medium
                  text-[var(--text-secondary)] hover:text-[var(--text-primary)]
                  hover:bg-[var(--surface)] transition-all duration-200
@@ -45,7 +46,7 @@
         </a>
         <a
           routerLink="/categories"
-          routerLinkActive="text-[var(--accent)] bg-[var(--accent-soft)]"
+          routerLinkActive="nav-link-active"
           class="px-4 py-2 rounded-full text-sm font-medium
                  text-[var(--text-secondary)] hover:text-[var(--text-primary)]
                  hover:bg-[var(--surface)] transition-all duration-200
@@ -279,7 +280,7 @@
           <a
             routerLink="/"
             (click)="closeMobileMenu()"
-            routerLinkActive="text-[var(--accent)] bg-[var(--accent-soft)]"
+            routerLinkActive="nav-link-active"
             [routerLinkActiveOptions]="{ exact: true }"
             class="px-4 py-3 rounded-lg text-sm font-medium
                    text-[var(--text-secondary)] hover:text-[var(--text-primary)]
@@ -292,7 +293,7 @@
           <a
             routerLink="/shop"
             (click)="closeMobileMenu()"
-            routerLinkActive="text-[var(--accent)] bg-[var(--accent-soft)]"
+            routerLinkActive="nav-link-active"
             class="px-4 py-3 rounded-lg text-sm font-medium
                    text-[var(--text-secondary)] hover:text-[var(--text-primary)]
                    hover:bg-[var(--surface)] transition-all duration-200"
@@ -304,7 +305,7 @@
           <a
             routerLink="/categories"
             (click)="closeMobileMenu()"
-            routerLinkActive="text-[var(--accent)] bg-[var(--accent-soft)]"
+            routerLinkActive="nav-link-active"
             class="px-4 py-3 rounded-lg text-sm font-medium
                    text-[var(--text-secondary)] hover:text-[var(--text-primary)]
                    hover:bg-[var(--surface)] transition-all duration-200"
@@ -353,7 +354,7 @@
           <a
             routerLink="/compare"
             (click)="closeMobileMenu()"
-            routerLinkActive="text-[var(--accent)] bg-[var(--accent-soft)]"
+            routerLinkActive="nav-link-active"
             class="px-4 py-3 rounded-lg text-sm font-medium
                    text-[var(--text-secondary)] hover:text-[var(--text-primary)]
                    hover:bg-[var(--surface)] transition-all duration-200

@@ -2,7 +2,7 @@
   <!-- Header -->
   <div appScrollReveal class="flex items-end justify-between mb-10">
     <div>
-      <h2 class="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">
+      <h2 class="section-title text-[var(--text-primary)]">
         {{ language.t('home.featuredCategories.title') }}
       </h2>
       <p class="text-sm text-[var(--text-secondary)] mt-1">
@@ -45,12 +45,11 @@
         <a
           [routerLink]="['/shop']"
           [queryParams]="{ category: category._id }"
-          class="group relative rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] overflow-hidden p-6 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--accent)] hover:shadow-lg hover:-translate-y-1 focus-ring"
+          class="card-premium group relative rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] overflow-hidden p-6 flex flex-col items-center text-center focus-ring"
         >
           <!-- Icon -->
           <div
-            class="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-110"
-            style="background: var(--accent-soft); color: var(--accent)"
+            class="icon-tile relative w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
           >
             @switch (getIconForCategory(category.slug)) {
               @case ('laptop') {
@@ -161,7 +160,7 @@
           </div>
 
           <!-- Name -->
-          <h3 class="text-sm font-semibold text-[var(--text-primary)] leading-tight">
+          <h3 class="relative text-sm font-semibold text-[var(--text-primary)] leading-tight">
             {{ getCategoryName(category) }}
           </h3>
         </a>
