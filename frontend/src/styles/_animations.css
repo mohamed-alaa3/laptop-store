@@ -51,7 +51,7 @@
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-8px);
   }
 }
 
@@ -377,36 +377,45 @@ html.theme-vt *::after {
 }
 /* ============================================================
    Scroll Reveal (via ScrollRevealDirective)
+   `.scroll-reveal` stays on the element: it owns the transition,
+   `.is-visible` flips it to the shown state.
    ============================================================ */
 .scroll-reveal {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(28px);
   transition:
-    opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 800ms var(--ease-out),
+    transform 800ms var(--ease-out);
   will-change: opacity, transform;
 }
 
 .scroll-reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
+  will-change: auto;
 }
 
 /* ============================================================
    Stagger (via StaggerDirective)
+   Children also list translate/box-shadow/border-color so card hover
+   effects keep animating after the reveal has finished.
    ============================================================ */
 .stagger-container > * {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(24px) scale(0.985);
   transition:
-    opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 700ms var(--ease-out),
+    transform 700ms var(--ease-out),
+    translate var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out);
   will-change: opacity, transform;
 }
 
 .stagger-container.stagger-visible > * {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
+  will-change: auto;
 }
 
 /* ============================================================
@@ -508,15 +517,92 @@ html.theme-vt *::after {
 
 /* ============================================================
    Card Hover Lift
+   Uses the individual `translate` property so it never fights with
+   the `transform` used by scroll-reveal / stagger.
    ============================================================ */
 .card-lift {
   transition:
-    transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1);
+    translate var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
 }
 
-.card-lift:hover {
-  transform: translateY(-4px);
+@media (hover: hover) {
+  .card-lift:hover {
+    translate: 0 -4px;
+  }
+}
+
+/* ============================================================
+   Premium card: lift + brand-tinted glow + soft sheen on hover
+   ============================================================ */
+.card-premium {
+  position: relative;
+  box-shadow: var(--shadow-sm);
+  transition:
+    translate var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out),
+    background-color var(--dur-base) var(--ease-out);
+}
+
+.card-premium::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--gradient-card-sheen);
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+  pointer-events: none;
+}
+
+html.dark .card-premium {
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+@media (hover: hover) {
+  .card-premium:hover,
+  .card-premium:focus-visible {
+    translate: 0 -5px;
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .card-premium:hover::before {
+    opacity: 1;
+  }
+}
+
+/* Icon tile that fills with the brand gradient when its card is hovered */
+.icon-tile {
+  background: var(--accent-soft);
+  color: var(--accent);
+  transition:
+    background var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    scale var(--dur-base) var(--ease-spring);
+}
+
+@media (hover: hover) {
+  .group:hover .icon-tile {
+    background: var(--gradient-brand);
+    color: #fff;
+    box-shadow: var(--shadow-accent);
+    scale: 1.08;
+  }
+
+  /* Tiles with a per-item colour (inline background/colour): glow in that colour */
+  .group:hover .icon-tile-colored {
+    box-shadow: 0 10px 22px -8px currentColor;
+    scale: 1.08;
+  }
+}
+
+.icon-tile-colored {
+  transition:
+    box-shadow var(--dur-base) var(--ease-out),
+    scale var(--dur-base) var(--ease-spring);
 }
 
 /* ============================================================
@@ -527,7 +613,7 @@ html.theme-vt *::after {
 }
 
 .image-zoom {
-  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 700ms var(--ease-out);
 }
 
 .image-zoom-container:hover .image-zoom {
@@ -645,4 +731,55 @@ main > *:not(router-outlet) {
 
 .hover-scale:hover {
   transform: scale(1.05);
+}
+/* ============================================================
+   CTA pulse ring (compositor-only: transform + opacity)
+   ============================================================ */
+@keyframes ringPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  70%,
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+
+.pulse-ring {
+  position: relative;
+  isolation: isolate;
+}
+
+.pulse-ring::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: inherit;
+  z-index: -1;
+  animation: ringPulse 2.4s var(--ease-out) infinite;
+}
+
+/* ============================================================
+   Slow drifting glow (cheap: transform only)
+   ============================================================ */
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2%, -3%, 0) scale(1.06);
+  }
+}
+
+.animate-drift {
+  animation: drift 14s ease-in-out infinite;
+}
+
+/* Heart + compare pops get a springier curve */
+.heart-beat {
+  animation-timing-function: var(--ease-spring);
 }

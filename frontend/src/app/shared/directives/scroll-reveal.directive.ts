@@ -55,8 +55,9 @@ export class ScrollRevealDirective implements OnInit, OnDestroy {
               target.style.transitionDelay = `${delay}ms`;
             }
 
+            // Keep `.scroll-reveal` on the element: it carries the transition. Removing it in the
+            // same frame as adding `.is-visible` made the reveal snap instead of animate.
             target.classList.add('is-visible');
-            target.classList.remove('scroll-reveal');
 
             if (this.revealOnce()) {
               this.observer?.unobserve(target);
@@ -64,7 +65,6 @@ export class ScrollRevealDirective implements OnInit, OnDestroy {
           } else if (!this.revealOnce()) {
             const target = entry.target as HTMLElement;
             target.classList.remove('is-visible');
-            target.classList.add('scroll-reveal');
           }
         }
       },

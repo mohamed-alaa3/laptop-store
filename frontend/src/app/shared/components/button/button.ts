@@ -68,6 +68,7 @@ export class Button {
 
   readonly classes = computed(() => {
     const base = [
+      'btn',
       'relative',
       'inline-flex',
       'items-center',
@@ -75,8 +76,6 @@ export class Button {
       'gap-2',
       'rounded-full',
       'font-medium',
-      'transition-all',
-      'duration-200',
       'overflow-hidden',
       'select-none',
       'focus-ring',
@@ -95,20 +94,16 @@ export class Button {
 
     const variantClasses: Record<ButtonVariant, string[]> = {
       primary: [
+        'btn-primary',
         'bg-[var(--accent)]',
         'text-[var(--accent-foreground)]',
-        'hover:bg-[var(--accent-hover)]',
-        'shadow-sm',
-        'hover:shadow-md',
-        'hover:shadow-[var(--accent)]/20',
       ],
       secondary: [
+        'btn-secondary',
         'bg-[var(--bg-elevated)]',
         'text-[var(--text-primary)]',
         'border',
         'border-[var(--border)]',
-        'hover:border-[var(--accent)]',
-        'hover:text-[var(--accent)]',
       ],
       ghost: [
         'bg-transparent',
@@ -117,20 +112,14 @@ export class Button {
         'hover:text-[var(--text-primary)]',
       ],
       danger: [
+        'btn-danger',
         'bg-[var(--danger)]',
         'text-white',
-        'hover:brightness-110',
-        'shadow-sm',
-        'hover:shadow-md',
-        'hover:shadow-[var(--danger)]/25',
       ],
       whatsapp: [
+        'btn-whatsapp',
         'bg-[var(--whatsapp)]',
         'text-white',
-        'hover:bg-[var(--whatsapp-hover)]',
-        'shadow-sm',
-        'hover:shadow-md',
-        'hover:shadow-[var(--whatsapp)]/25',
       ],
     };
 

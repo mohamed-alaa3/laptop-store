@@ -53,6 +53,13 @@ export class StaggerDirective implements OnInit, OnDestroy {
 
             target.classList.add('stagger-visible');
             this.observer?.unobserve(target);
+
+            // The per-child delay is only for the entrance. Clear it afterwards, otherwise every
+            // hover/lift transition on these children inherits a 0–600ms delay and feels laggy.
+            const total = children.length * baseDelay + 800;
+            window.setTimeout(() => {
+              children.forEach((child) => (child.style.transitionDelay = ''));
+            }, total);
           }
         }
       },
